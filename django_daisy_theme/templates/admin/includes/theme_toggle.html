@@ -1,0 +1,51 @@
+{% load i18n daisy_theme %}
+{% if daisy_theme.SHOW_THEME_SWITCHER %}
+<div class="flex items-center gap-1.5" x-cloak>
+  <!-- Quick Dark/Light Toggle -->
+  <button 
+    type="button"
+    class="btn btn-ghost btn-circle btn-sm"
+    @click="toggleDarkLight()"
+    :title="currentTheme === darkTheme ? '{% translate 'Switch to light mode' %}' : '{% translate 'Switch to dark mode' %}'"
+    aria-label="Toggle dark/light theme"
+  >
+    <template x-if="currentTheme === darkTheme || currentTheme === 'dark' || currentTheme === 'night'">
+      {% daisy_icon "sun" "w-4 h-4 text-warning" %}
+    </template>
+    <template x-if="currentTheme !== darkTheme && currentTheme !== 'dark' && currentTheme !== 'night'">
+      {% daisy_icon "moon" "w-4 h-4 text-base-content/80" %}
+    </template>
+  </button>
+
+  <!-- DaisyUI Theme Selection Dropdown -->
+  <div class="dropdown dropdown-end">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-sm gap-1.5 px-2 font-normal">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-primary"></span>
+      <span class="text-xs capitalize hidden md:inline" x-text="currentTheme"></span>
+      {% daisy_icon "chevron-down" "w-3.5 h-3.5 opacity-60" %}
+    </div>
+    <ul tabindex="0" class="dropdown-content z-50 menu p-2 shadow-2xl bg-base-100 border border-base-200 rounded-box w-52 max-h-80 overflow-y-auto mt-2">
+      <li class="menu-title text-xs font-semibold px-2 py-1 opacity-60">{% translate 'Select Theme' %}</li>
+      {% for theme_name in daisy_theme.AVAILABLE_THEMES %}
+      <li>
+        <button 
+          type="button" 
+          class="flex items-center justify-between text-xs py-2 capitalize" 
+          :class="currentTheme === '{{ theme_name }}' ? 'active font-semibold' : ''"
+          @click="setTheme('{{ theme_name }}')"
+          data-theme="{{ theme_name }}"
+        >
+          <span class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-primary border border-base-content/20"></span>
+            {{ theme_name }}
+          </span>
+          <template x-if="currentTheme === '{{ theme_name }}'">
+            {% daisy_icon "check" "w-3.5 h-3.5 text-primary" %}
+          </template>
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}

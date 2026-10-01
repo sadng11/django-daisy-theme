@@ -1,0 +1,36 @@
+{% load i18n daisy_theme %}
+{% if daisy_theme.SHOW_BREADCRUMBS %}
+<div class="breadcrumbs text-sm py-2 px-4 bg-base-100/50 border-b border-base-200">
+  <ul>
+    <li>
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-1.5 text-base-content/80 hover:text-primary transition-colors">
+        {% daisy_icon "home" "w-4 h-4" %}
+        <span>{% translate 'Home' %}</span>
+      </a>
+    </li>
+    {% if app_label %}
+    <li>
+      <a href="{% url 'admin:app_list' app_label=app_label %}" class="text-base-content/80 hover:text-primary transition-colors">
+        {{ app_label|capfirst }}
+      </a>
+    </li>
+    {% endif %}
+    {% if opts %}
+    <li>
+      {% if has_change_permission %}
+      <a href="{% url opts|admin_urlname:'changelist' %}" class="text-base-content/80 hover:text-primary transition-colors">
+        {{ opts.verbose_name_plural|capfirst }}
+      </a>
+      {% else %}
+      <span class="text-base-content/60">{{ opts.verbose_name_plural|capfirst }}</span>
+      {% endif %}
+    </li>
+    {% endif %}
+    {% if title %}
+    <li>
+      <span class="font-medium text-base-content">{{ title }}</span>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}

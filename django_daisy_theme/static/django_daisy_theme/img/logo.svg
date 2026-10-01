@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <rect width="48" height="48" rx="12" fill="currentColor" fill-opacity="0.1"/>
+  <!-- Daisy flower petals -->
+  <circle cx="24" cy="14" r="5" fill="#FBBF24" fill-opacity="0.8"/>
+  <circle cx="24" cy="34" r="5" fill="#FBBF24" fill-opacity="0.8"/>
+  <circle cx="14" cy="24" r="5" fill="#FBBF24" fill-opacity="0.8"/>
+  <circle cx="34" cy="24" r="5" fill="#FBBF24" fill-opacity="0.8"/>
+  <circle cx="17" cy="17" r="5" fill="#F59E0B" fill-opacity="0.8"/>
+  <circle cx="31" cy="31" r="5" fill="#F59E0B" fill-opacity="0.8"/>
+  <circle cx="31" cy="17" r="5" fill="#F59E0B" fill-opacity="0.8"/>
+  <circle cx="17" cy="31" r="5" fill="#F59E0B" fill-opacity="0.8"/>
+  <!-- Center circle -->
+  <circle cx="24" cy="24" r="6" fill="#10B981"/>
+</svg>
