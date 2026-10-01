@@ -419,13 +419,171 @@ ul.inline > li {
   margin: 0 0.375rem !important;
 }
 
-/* 11. Error Lists in Forms */
+/* 11. Error Lists & Field-Level Errors */
 ul.errorlist {
-  @apply m-0 mb-2 p-2.5 rounded-lg bg-error/15 border border-error/30 text-error text-xs font-semibold list-none space-y-1;
+  @apply m-0 p-0 list-none space-y-1 mb-1.5;
 }
 
 ul.errorlist li {
-  @apply flex items-center gap-1.5;
+  @apply flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all;
+  background-color: oklch(var(--er) / 0.1);
+  border-color: oklch(var(--er) / 0.25);
+  color: oklch(0.38 0.22 25);
+  line-height: 1.35;
+}
+
+[data-theme="dark"] ul.errorlist li,
+.dark ul.errorlist li {
+  background-color: oklch(var(--er) / 0.18);
+  border-color: oklch(var(--er) / 0.35);
+  color: oklch(0.90 0.14 25);
+}
+
+ul.errorlist li::before {
+  content: "";
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") no-repeat center / contain;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Reset errorlist inside alerts */
+.alert ul.errorlist,
+.alert ul.errorlist li {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0.25rem 0 0 0 !important;
+  color: inherit !important;
+}
+.alert ul.errorlist li::before {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Alerts & Notifications System (Unified Modern Soft Design & Perfect Contrast)
+   ========================================================================== */
+.alert {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.75rem !important;
+  border-width: 1px !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.4 !important;
+  width: 100% !important;
+  min-height: unset !important;
+  text-align: start !important;
+  justify-content: flex-start !important;
+  box-shadow: 0 1px 2px 0 oklch(0 0 0 / 0.05) !important;
+}
+
+/* Error Alerts */
+.alert-error {
+  background-color: oklch(var(--er) / 0.12) !important;
+  border-color: oklch(var(--er) / 0.3) !important;
+  color: oklch(0.38 0.22 25) !important;
+}
+.alert-error svg {
+  color: oklch(0.48 0.22 25) !important;
+}
+[data-theme="dark"] .alert-error,
+.dark .alert-error {
+  background-color: oklch(var(--er) / 0.18) !important;
+  border-color: oklch(var(--er) / 0.4) !important;
+  color: oklch(0.90 0.14 25) !important;
+}
+[data-theme="dark"] .alert-error svg,
+.dark .alert-error svg {
+  color: oklch(0.85 0.18 25) !important;
+}
+
+/* Warning Alerts */
+.alert-warning {
+  background-color: oklch(var(--wa) / 0.12) !important;
+  border-color: oklch(var(--wa) / 0.3) !important;
+  color: oklch(0.42 0.16 65) !important;
+}
+.alert-warning svg {
+  color: oklch(0.52 0.18 65) !important;
+}
+[data-theme="dark"] .alert-warning,
+.dark .alert-warning {
+  background-color: oklch(var(--wa) / 0.18) !important;
+  border-color: oklch(var(--wa) / 0.4) !important;
+  color: oklch(0.90 0.14 75) !important;
+}
+[data-theme="dark"] .alert-warning svg,
+.dark .alert-warning svg {
+  color: oklch(0.85 0.16 75) !important;
+}
+
+/* Success Alerts */
+.alert-success {
+  background-color: oklch(var(--su) / 0.12) !important;
+  border-color: oklch(var(--su) / 0.3) !important;
+  color: oklch(0.35 0.18 145) !important;
+}
+.alert-success svg {
+  color: oklch(0.45 0.18 145) !important;
+}
+[data-theme="dark"] .alert-success,
+.dark .alert-success {
+  background-color: oklch(var(--su) / 0.18) !important;
+  border-color: oklch(var(--su) / 0.4) !important;
+  color: oklch(0.90 0.15 145) !important;
+}
+[data-theme="dark"] .alert-success svg,
+.dark .alert-success svg {
+  color: oklch(0.85 0.18 145) !important;
+}
+
+/* Info Alerts */
+.alert-info {
+  background-color: oklch(var(--in) / 0.12) !important;
+  border-color: oklch(var(--in) / 0.3) !important;
+  color: oklch(0.35 0.18 245) !important;
+}
+.alert-info svg {
+  color: oklch(0.45 0.18 245) !important;
+}
+[data-theme="dark"] .alert-info,
+.dark .alert-info {
+  background-color: oklch(var(--in) / 0.18) !important;
+  border-color: oklch(var(--in) / 0.4) !important;
+  color: oklch(0.90 0.15 245) !important;
+}
+[data-theme="dark"] .alert-info svg,
+.dark .alert-info svg {
+  color: oklch(0.85 0.18 245) !important;
+}
+
+/* Django default errornote styling */
+.errornote {
+  @apply alert alert-error shadow-sm text-xs font-semibold mb-4;
+}
+
+/* Error highlight on input widgets */
+.form-row.errors input,
+.form-row.errors select,
+.form-row.errors textarea,
+.field-errors + .daisy-field-wrapper input,
+.field-errors + .daisy-field-wrapper select,
+.field-errors + .daisy-field-wrapper textarea {
+  border-color: oklch(var(--er) / 0.8) !important;
+  background-color: oklch(var(--er) / 0.03) !important;
+}
+.form-row.errors input:focus,
+.form-row.errors select:focus,
+.form-row.errors textarea:focus,
+.field-errors + .daisy-field-wrapper input:focus,
+.field-errors + .daisy-field-wrapper select:focus,
+.field-errors + .daisy-field-wrapper textarea:focus {
+  @apply ring-2 ring-error/25 border-error !important;
 }
 
 /* 12. Custom Enhancements for Django Admin Tables & Scrollbars */
@@ -872,5 +1030,38 @@ body > .select2-container--open {
   @apply text-primary text-xs hover:underline p-2 block text-center;
 }
 
+/* 7. Django Default Submit Rows & Action Buttons */
+.submit-row {
+  @apply bg-base-100/95 backdrop-blur-md border border-base-200 p-3 sm:p-4 rounded-xl shadow-sm flex flex-wrap items-center justify-end gap-3 mt-6;
+}
 
+.submit-row input[type="submit"],
+.submit-row input[type="button"],
+.submit-row button {
+  @apply btn btn-sm text-xs font-medium transition-all duration-150 shadow-sm cursor-pointer;
+}
 
+.submit-row input[type="submit"].default,
+.submit-row input[type="submit"]:first-child,
+.submit-row button[type="submit"] {
+  @apply btn-primary text-primary-content;
+}
+
+.submit-row input[type="submit"]:not(.default),
+.submit-row input[type="button"] {
+  @apply btn-outline;
+}
+
+.submit-row a.closelink {
+  @apply btn btn-ghost btn-sm text-xs;
+}
+
+.submit-row a.deletelink {
+  @apply btn btn-error btn-outline btn-sm text-xs;
+}
+
+/* 8. Django Form Help Text Lists (e.g. password validators) */
+.help ul,
+p.help ul {
+  @apply list-disc ps-5 space-y-1 my-1 text-xs text-base-content/70;
+}

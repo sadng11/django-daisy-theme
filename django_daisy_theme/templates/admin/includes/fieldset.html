@@ -33,7 +33,7 @@
       {% for line in fieldset %}
         <div class="form-row py-4 first:pt-0 last:pb-0 {% if not line.has_visible_field %}hidden{% endif %} {% for field in line %}{% if field.field.name %}field-{{ field.field.name }} {% endif %}{% endfor %}">
           {% if line.fields|length == 1 and line.errors %}
-            <div class="alert alert-error text-xs p-3 mb-3 shadow-sm rounded-lg">
+            <div class="field-errors mb-2">
               {{ line.errors }}
             </div>
           {% endif %}
@@ -42,7 +42,7 @@
             {% for field in line %}
               <div class="form-control w-full">
                 {% if not line.fields|length == 1 and not field.is_readonly and field.errors %}
-                  <div class="alert alert-error text-xs p-3 mb-1 shadow-sm rounded-lg">
+                  <div class="field-errors mb-1.5">
                     {{ field.errors }}
                   </div>
                 {% endif %}
