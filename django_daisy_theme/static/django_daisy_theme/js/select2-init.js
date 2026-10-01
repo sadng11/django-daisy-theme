@@ -24,7 +24,7 @@
 
     var $root = context ? $(context) : $(document);
 
-    // Target all select elements
+    // Target select elements
     $root.find('select').each(function () {
       var $select = $(this);
 
@@ -62,8 +62,8 @@
           dir: isRtl ? 'rtl' : 'ltr',
           language: lang.startsWith('fa') ? 'fa' : 'en',
           width: '100%',
-          dropdownAutoWidth: true,
-          minimumResultsForSearch: 0 // Always enable search box
+          dropdownAutoWidth: false, // Prevents full-width screen overflow
+          minimumResultsForSearch: 0 // Always show search box
         };
 
         if (hasEmptyOption && !isMultiple) {
