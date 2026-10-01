@@ -1,0 +1,166 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls daisy_theme %}
+
+{% block title %}{{ title }} | {% daisy_config "SITE_TITLE" "Django Administration" %}{% endblock %}
+
+{% block breadcrumbs %}
+{% if daisy_theme.SHOW_BREADCRUMBS %}
+<div class="breadcrumbs text-sm py-2 px-4 bg-base-100/50 border-b border-base-200">
+  <ul>
+    <li>
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-1.5 text-base-content/80 hover:text-primary transition-colors">
+        {% daisy_icon "home" "w-4 h-4" %}
+        <span>{% translate 'Home' %}</span>
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'admin:app_list' app_label=opts.app_label %}" class="text-base-content/80 hover:text-primary transition-colors">
+        {{ opts.app_config.verbose_name }}
+      </a>
+    </li>
+    <li>
+      <a href="{% url opts|admin_urlname:'changelist' %}" class="text-base-content/80 hover:text-primary transition-colors">
+        {{ module_name }}
+      </a>
+    </li>
+    <li>
+      <a href="{% url opts|admin_urlname:'change' object.pk|admin_urlquote %}" class="text-base-content/80 hover:text-primary transition-colors">
+        {{ object|truncatewords:"18" }}
+      </a>
+    </li>
+    <li>
+      <span class="font-medium text-base-content">{% translate 'History' %}</span>
+    </li>
+  </ul>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block object-tools %}
+<a href="{% url opts|admin_urlname:'change' object.pk|admin_urlquote %}" class="btn btn-outline btn-sm text-xs gap-1.5 shadow-sm hover:btn-primary">
+  {% daisy_icon "edit" "w-3.5 h-3.5" %}
+  <span>{% if LANGUAGE_CODE|slice:":2" == "fa" %}ویرایش {{ object|truncatewords:"6" }}{% else %}{% translate 'Change' %} {{ object|truncatewords:"6" }}{% endif %}</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="daisy-history w-full space-y-6">
+  <!-- Card with Table and Actions -->
+  <div class="card bg-base-100 border border-base-200 shadow-sm overflow-hidden">
+    <div class="card-body p-0">
+      {% if action_list %}
+      <div class="overflow-x-auto w-full">
+        <table class="table table-zebra table-hover w-full daisy-admin-table text-xs">
+          <thead>
+            <tr class="bg-base-200/80 border-b border-base-300">
+              <th scope="col" class="py-3 px-4 font-bold text-base-content/80 whitespace-nowrap w-48">
+                <div class="flex items-center gap-1.5">
+                  {% daisy_icon "clock" "w-3.5 h-3.5 opacity-60" %}
+                  <span>{% translate 'Date/time' %}</span>
+                </div>
+              </th>
+              <th scope="col" class="py-3 px-4 font-bold text-base-content/80 whitespace-nowrap w-48">
+                <div class="flex items-center gap-1.5">
+                  {% daisy_icon "user" "w-3.5 h-3.5 opacity-60" %}
+                  <span>{% translate 'User' %}</span>
+                </div>
+              </th>
+              <th scope="col" class="py-3 px-4 font-bold text-base-content/80">
+                <div class="flex items-center gap-1.5">
+                  {% daisy_icon "file-text" "w-3.5 h-3.5 opacity-60" %}
+                  <span>{% translate 'Action' %}</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-base-200">
+            {% for action in action_list %}
+            <tr class="hover:bg-base-200/40 transition-colors">
+              <td class="py-3 px-4 font-mono text-xs whitespace-nowrap text-base-content/70">
+                <div class="flex items-center gap-1.5">
+                  <span>{{ action.action_time|date:"DATETIME_FORMAT" }}</span>
+                </div>
+              </td>
+              <td class="py-3 px-4 font-medium text-base-content whitespace-nowrap">
+                <div class="flex items-center gap-2">
+                  <div class="avatar placeholder">
+                    <div class="bg-primary/10 text-primary rounded-full w-6 h-6 text-[11px] font-bold flex items-center justify-center">
+                      {{ action.user.get_username|slice:":1"|upper }}
+                    </div>
+                  </div>
+                  <span>{{ action.user.get_username }}{% if action.user.get_full_name %} ({{ action.user.get_full_name }}){% endif %}</span>
+                </div>
+              </td>
+              <td class="py-3 px-4 text-base-content/90">
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  {% if action.is_addition %}
+                    <span class="badge badge-success badge-sm gap-1 py-1 px-2 font-medium shrink-0">
+                      {% daisy_icon "plus" "w-3 h-3" %}
+                      <span>{{ action.get_action_flag_display }}</span>
+                    </span>
+                  {% elif action.is_change %}
+                    <span class="badge badge-info badge-sm gap-1 py-1 px-2 font-medium shrink-0">
+                      {% daisy_icon "edit" "w-3 h-3" %}
+                      <span>{{ action.get_action_flag_display }}</span>
+                    </span>
+                  {% elif action.is_deletion %}
+                    <span class="badge badge-error badge-sm gap-1 py-1 px-2 font-medium shrink-0">
+                      {% daisy_icon "trash" "w-3 h-3" %}
+                      <span>{{ action.get_action_flag_display }}</span>
+                    </span>
+                  {% else %}
+                    <span class="badge badge-ghost badge-sm py-1 px-2 shrink-0">
+                      {{ action.get_action_flag_display }}
+                    </span>
+                  {% endif %}
+                  <span class="text-xs leading-relaxed">
+                    {{ action.get_change_message }}
+                  </span>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer / Paginator Bar -->
+      <div class="p-4 border-t border-base-200 flex flex-col sm:flex-row items-center justify-between gap-4 bg-base-100">
+        <div class="text-xs text-base-content/70 flex items-center gap-1.5">
+          <span class="badge badge-sm badge-neutral font-mono font-bold">{{ action_list.paginator.count }}</span>
+          <span>{% if LANGUAGE_CODE|slice:":2" == "fa" %}مورد تغییر ثبت‌شده{% else %}{% blocktranslate count counter=action_list.paginator.count %}entry{% plural %}entries{% endblocktranslate %}{% endif %}</span>
+        </div>
+
+        {% if pagination_required %}
+        <div class="join">
+          {% for i in page_range %}
+            {% if i == action_list.paginator.ELLIPSIS %}
+              <button class="join-item btn btn-sm btn-disabled text-xs">…</button>
+            {% elif i == action_list.number %}
+              <button class="join-item btn btn-sm btn-primary text-xs">{{ i }}</button>
+            {% else %}
+              <a href="?{{ page_var }}={{ i }}" class="join-item btn btn-sm btn-ghost border border-base-300 text-xs">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {% else %}
+      <!-- Empty State -->
+      <div class="p-12 text-center space-y-3">
+        <div class="inline-flex p-4 rounded-full bg-base-200 text-base-content/40">
+          {% daisy_icon "history" "w-8 h-8" %}
+        </div>
+        <h3 class="text-base font-bold text-base-content">
+          {% if LANGUAGE_CODE|slice:":2" == "fa" %}هیچ سابقه‌ای برای این شیء ثبت نشده است{% else %}{% translate 'No history records found' %}{% endif %}
+        </h3>
+        <p class="text-xs text-base-content/60 max-w-sm mx-auto">
+          {% translate 'This object doesn’t have a change history. It probably wasn’t added via this admin site.' %}
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

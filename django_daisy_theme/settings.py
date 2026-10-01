@@ -27,6 +27,7 @@ DEFAULT_CONFIG = {
     "CUSTOM_LINKS": [],
     "FOOTER_TEXT": "Powered by django-daisy-theme",
     "SHOW_VERSION": True,
+    "SHOW_BREADCRUMBS": True,
     "ENABLE_SELECT2": True,
 }
 
