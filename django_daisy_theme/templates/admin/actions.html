@@ -1,0 +1,49 @@
+{% load i18n daisy_theme %}
+<div class="actions bg-base-100 border border-base-200 rounded-lg p-2.5 flex flex-wrap items-center justify-between gap-3 text-xs shadow-2xs">
+  <div class="flex flex-wrap items-center gap-2">
+    {% block actions %}
+      {% block actions-form %}
+      <div class="flex items-center gap-2">
+        <span class="font-medium text-base-content/70">{% translate 'Action:' %}</span>
+        {% for field in action_form %}
+          {{ field }}
+        {% endfor %}
+      </div>
+      {% endblock %}
+
+      {% block actions-submit %}
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-xs text-xs gap-1" 
+        title="{% translate 'Run the selected action' %}" 
+        name="index" 
+        value="{{ action_index|default:0 }}"
+      >
+        {% daisy_icon "check" "w-3 h-3" %}
+        <span>{% translate 'Execute' %}</span>
+      </button>
+      {% endblock %}
+    {% endblock %}
+  </div>
+
+  {% block actions-counter %}
+  {% if actions_selection_counter %}
+  <div class="flex items-center gap-2 text-[11px] text-base-content/60">
+    <span class="action-counter badge badge-sm badge-ghost" data-actions-icnt="{{ cl.result_list|length }}">
+      {{ selection_note }}
+    </span>
+    {% if cl.result_count != cl.result_list|length %}
+      <span class="all hidden badge badge-sm badge-primary">{{ selection_note_all }}</span>
+      <span class="question hidden">
+        <a href="#" class="link link-primary font-medium" title="{% translate 'Click here to select the objects across all pages' %}">
+          {% blocktranslate with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}
+        </a>
+      </span>
+      <span class="clear hidden">
+        <a href="#" class="link link-error">{% translate 'Clear selection' %}</a>
+      </span>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% endblock %}
+</div>

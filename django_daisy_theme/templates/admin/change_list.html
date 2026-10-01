@@ -1,0 +1,206 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list daisy_theme %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  {{ media.css }}
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  {{ media.js }}
+{% endblock %}
+
+{% block content %}
+<div class="daisy-changelist space-y-4" x-data="{ filterDrawerOpen: false }">
+  <!-- Top Action & Search Bar -->
+  <div class="card bg-base-100 border border-base-200 shadow-xs p-4">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Search Form -->
+      <div class="flex-1 max-w-lg">
+        {% block search %}
+          {% if cl.search_fields %}
+            <form id="changelist-search" method="get" class="relative">
+              <input 
+                type="text" 
+                name="{{ search_var }}" 
+                value="{{ cl.query }}" 
+                placeholder="{% translate 'Search records...' %}"
+                class="input input-bordered input-sm w-full ps-9 text-xs focus:input-primary"
+              />
+              <span class="absolute start-3 top-2 opacity-50">
+                {% daisy_icon "search" "w-4 h-4" %}
+              </span>
+              {% if cl.query %}
+              <a href="?" class="absolute end-3 top-2 opacity-50 hover:opacity-100" title="{% translate 'Clear search' %}">
+                {% daisy_icon "x" "w-4 h-4" %}
+              </a>
+              {% endif %}
+              {% for pair in cl.params.items %}
+                {% if pair.0 != search_var %}
+                  <input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}"/>
+                {% endif %}
+              {% endfor %}
+            </form>
+          {% endif %}
+        {% endblock %}
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        {% if cl.has_filters %}
+        <button 
+          type="button" 
+          class="btn btn-outline btn-sm text-xs gap-1.5"
+          @click="filterDrawerOpen = true"
+          title="{% translate 'Filter records' %}"
+        >
+          {% daisy_icon "filter" "w-4 h-4" %}
+          <span>{% translate 'Filters' %}</span>
+          {% if cl.is_filtered %}
+          <span class="badge badge-primary badge-xs"></span>
+          {% endif %}
+        </button>
+        {% endif %}
+
+        {% block object-tools-items %}
+          {% if has_add_permission and cl.opts %}
+          <a href="{% url cl.opts|admin_urlname:'add' %}{% if is_popup %}?_popup=1{% endif %}" class="btn btn-primary btn-sm text-xs gap-1.5 shadow-sm">
+            {% daisy_icon "plus" "w-4 h-4" %}
+            <span>{% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}</span>
+          </a>
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+
+    <!-- Date Hierarchy (if any) -->
+    {% block date_hierarchy %}
+      {% if cl.date_hierarchy %}
+        <div class="pt-3 mt-3 border-t border-base-200">
+          {% date_hierarchy cl %}
+        </div>
+      {% endif %}
+    {% endblock %}
+  </div>
+
+  <!-- Form for Bulk Actions & Results -->
+  <form id="changelist-form" method="post" novalidate class="space-y-4">
+    {% csrf_token %}
+    
+    {% if cl.formset and cl.formset.is_multipart %}
+      enctype="multipart/form-data"
+    {% endif %}
+
+    <!-- Top Bulk Action Bar -->
+    {% if action_form and cl.show_admin_actions %}
+      {% admin_actions %}
+    {% endif %}
+
+    <!-- Table Container -->
+    <div class="card bg-base-100 border border-base-200 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        {% block result_list %}
+          {% if cl %}
+            {% result_list cl %}
+          {% else %}
+            <div class="p-8 text-center text-xs text-base-content/60 italic">
+              {% translate 'No records found.' %}
+            </div>
+          {% endif %}
+        {% endblock %}
+      </div>
+
+      <!-- Pagination Footer -->
+      {% block pagination %}
+        {% if cl %}
+          {% pagination cl %}
+        {% endif %}
+      {% endblock %}
+    </div>
+  </form>
+
+  <!-- Slide-Over Filter Drawer -->
+  {% if cl.has_filters %}
+  <div 
+    class="fixed inset-0 z-50 overflow-hidden" 
+    x-show="filterDrawerOpen" 
+    x-cloak
+    role="dialog" 
+    aria-modal="true"
+  >
+    <!-- Backdrop overlay -->
+    <div 
+      class="fixed inset-0 bg-base-content/20 backdrop-blur-xs transition-opacity"
+      @click="filterDrawerOpen = false"
+    ></div>
+
+    <div class="fixed inset-y-0 end-0 max-w-full flex">
+      <div class="w-screen max-w-sm bg-base-100 shadow-2xl border-s border-base-200 flex flex-col justify-between">
+        <!-- Drawer Header -->
+        <div class="p-4 border-b border-base-200 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            {% daisy_icon "filter" "w-5 h-5 text-primary" %}
+            <h3 class="font-bold text-sm text-base-content">{% translate 'Filter Records' %}</h3>
+          </div>
+          <button 
+            type="button" 
+            class="btn btn-ghost btn-circle btn-sm"
+            @click="filterDrawerOpen = false"
+            aria-label="Close filters"
+          >
+            {% daisy_icon "x" "w-4 h-4" %}
+          </button>
+        </div>
+
+        <!-- Filter Specs List -->
+        <div class="p-4 overflow-y-auto space-y-6 flex-1 text-xs">
+          {% if cl.is_filtered %}
+          <div class="pb-2 border-b border-base-200">
+            <a href="?" class="btn btn-ghost btn-xs text-error gap-1">
+              {% daisy_icon "x" "w-3 h-3" %}
+              <span>{% translate 'Clear all filters' %}</span>
+            </a>
+          </div>
+          {% endif %}
+
+          {% for spec in cl.filter_specs %}
+          <div class="space-y-2">
+            <h4 class="font-semibold text-xs text-base-content/80 uppercase tracking-wider">
+              {{ spec.title }}
+            </h4>
+            <ul class="menu bg-base-200/50 rounded-box p-1 text-xs space-y-0.5">
+              {% for choice in spec.choices %}
+              <li>
+                <a 
+                  href="{{ choice.query_string }}" 
+                  class="flex items-center justify-between py-1.5 {% if choice.selected %}active font-bold{% endif %}"
+                >
+                  <span class="truncate">{{ choice.display }}</span>
+                  {% if choice.selected %}
+                    {% daisy_icon "check" "w-3.5 h-3.5" %}
+                  {% endif %}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-4 border-t border-base-200 bg-base-100 flex items-center justify-end">
+          <button 
+            type="button" 
+            class="btn btn-primary btn-sm text-xs" 
+            @click="filterDrawerOpen = false"
+          >
+            {% translate 'Apply / Close' %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

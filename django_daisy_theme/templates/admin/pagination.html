@@ -1,0 +1,27 @@
+{% load admin_list i18n daisy_theme %}
+<div class="paginator p-4 bg-base-100 border-t border-base-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+  <div class="text-base-content/70 flex items-center gap-2">
+    <span class="badge badge-sm badge-neutral font-mono font-bold">{{ cl.result_count }}</span>
+    <span>
+      {% if cl.result_count == 1 %}{{ cl.opts.verbose_name }}{% else %}{{ cl.opts.verbose_name_plural }}{% endif %}
+    </span>
+    {% if show_all_url %}
+    <span>&bull;</span>
+    <a href="{{ show_all_url }}" class="link link-primary font-medium">{% translate 'Show all' %}</a>
+    {% endif %}
+  </div>
+
+  <div class="flex items-center gap-2">
+    {% if pagination_required %}
+    <div class="join shadow-xs">
+      {% for i in page_range %}
+        {% paginator_number cl i %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if cl.formset and cl.result_count %}
+    <input type="submit" name="_save" class="btn btn-primary btn-xs" value="{% translate 'Save' %}">
+    {% endif %}
+  </div>
+</div>
