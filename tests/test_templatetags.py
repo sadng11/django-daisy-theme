@@ -86,3 +86,10 @@ def test_daisy_sidebar_apps():
     assert daisy_sidebar_apps({}) == []
     assert daisy_sidebar_apps(None) == []
 
+
+def test_daisy_version():
+    from django_daisy_theme.templatetags.daisy_theme import daisy_version
+    from django_daisy_theme import __version__
+    assert daisy_version() == __version__
+
+

@@ -16,14 +16,14 @@
   {% endif %}
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/daisy-theme.min.css' %}">
+  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/daisy-theme.min.css' %}?v={% daisy_version %}">
   {% if daisy_theme.LOAD_DEFAULT_FONTS %}
-  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/fonts.css' %}?v={% daisy_version %}">
   {% endif %}
 
   <!-- Alpine.js & Theme Scripts -->
-  <script defer src="{% static 'django_daisy_theme/js/alpine.min.js' %}"></script>
-  <script defer src="{% static 'django_daisy_theme/js/daisy-theme.js' %}"></script>
+  <script defer src="{% static 'django_daisy_theme/js/alpine.min.js' %}?v={% daisy_version %}"></script>
+  <script defer src="{% static 'django_daisy_theme/js/daisy-theme.js' %}?v={% daisy_version %}"></script>
 
   {% block extrastyle %}{% endblock %}
   {% block extrahead %}{% endblock %}
@@ -136,7 +136,7 @@
       }
     }
   </script>
-  <script src="{% static 'django_daisy_theme/js/select2-init.js' %}"></script>
+  <script src="{% static 'django_daisy_theme/js/select2-init.js' %}?v={% daisy_version %}"></script>
   {% endif %}
 </body>
 </html>

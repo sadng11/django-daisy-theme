@@ -103,13 +103,88 @@ textarea.vLargeTextField:focus,
 
 /* 4. Checkboxes & Radios */
 input[type="checkbox"]:not(.drawer-toggle):not(.toggle) {
-  @apply checkbox checkbox-primary rounded-md transition-all border-base-300 cursor-pointer;
-  width: 1.25rem;
-  height: 1.25rem;
+  @apply checkbox checkbox-primary rounded-md transition-all border-base-300 cursor-pointer shrink-0;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  min-width: 1.25rem !important;
+  min-height: 1.25rem !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
 
 input[type="radio"] {
-  @apply radio radio-primary transition-all border-base-300 cursor-pointer;
+  @apply radio radio-primary transition-all border-base-300 cursor-pointer shrink-0;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  min-width: 1.25rem !important;
+  min-height: 1.25rem !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Django Radio & Checkbox Lists */
+.radiolist,
+.checkboxlist {
+  padding: 0.25rem 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+.radiolist.inline,
+.checkboxlist.inline,
+ul.inline {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 1.5rem !important;
+}
+
+.radiolist.inline > div,
+.radiolist.inline > li,
+.checkboxlist.inline > div,
+.checkboxlist.inline > li,
+ul.inline > li {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.radiolist:not(.inline),
+.checkboxlist:not(.inline) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.625rem !important;
+}
+
+.radiolist:not(.inline) > div,
+.radiolist:not(.inline) > li,
+.checkboxlist:not(.inline) > div,
+.checkboxlist:not(.inline) > li {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.radiolist label,
+.checkboxlist label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.85)) !important;
+  transition: color 0.15s ease !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.radiolist label:hover,
+.checkboxlist label:hover {
+  color: var(--fallback-p, oklch(var(--p) / 1)) !important;
 }
 
 /* 5. Related Widget Wrapper (ForeignKey & ManyToMany popup buttons) */

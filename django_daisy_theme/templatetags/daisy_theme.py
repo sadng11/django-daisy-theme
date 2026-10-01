@@ -123,3 +123,13 @@ def daisy_sidebar_apps(context):
         return []
     return context.get("available_apps") or context.get("app_list") or []
 
+
+@register.simple_tag
+def daisy_version():
+    """
+    Returns the current package version for asset cache busting.
+    """
+    from django_daisy_theme import __version__
+    return __version__
+
+
