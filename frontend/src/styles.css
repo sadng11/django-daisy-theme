@@ -47,11 +47,23 @@
 .form-row input[type="email"],
 .form-row input[type="url"],
 .form-row input[type="number"] {
-  @apply input input-bordered w-full text-sm bg-base-100 text-base-content border-base-300 rounded-lg transition-all duration-150;
+  @apply input input-bordered w-full text-sm text-base-content rounded-lg transition-all duration-200;
+  background-color: oklch(var(--b2) / 0.4);
+  border-color: oklch(var(--b3) / 0.6);
   height: 2.375rem;
   min-height: 2.375rem;
   padding-inline-start: 0.75rem;
   padding-inline-end: 0.75rem;
+}
+
+.daisy-field-wrapper input:hover,
+.vTextField:hover,
+.vIntegerField:hover,
+.vURLField:hover,
+.vDateField:hover,
+.vTimeField:hover,
+.form-row input:hover {
+  border-color: oklch(var(--p) / 0.35);
 }
 
 .daisy-field-wrapper input:focus,
@@ -61,7 +73,7 @@
 .vDateField:focus,
 .vTimeField:focus,
 .form-row input:focus {
-  @apply border-primary outline-none ring-2 ring-primary/20;
+  @apply border-primary outline-none ring-2 ring-primary/15 bg-base-100;
 }
 
 /* 2. Select Dropdowns */
@@ -69,16 +81,23 @@
 select[data-context],
 .form-row select,
 select.form-select {
-  @apply select select-bordered w-full text-sm bg-base-100 text-base-content border-base-300 rounded-lg transition-all duration-150;
+  @apply select select-bordered w-full text-sm text-base-content rounded-lg transition-all duration-200;
+  background-color: oklch(var(--b2) / 0.4);
+  border-color: oklch(var(--b3) / 0.6);
   height: 2.375rem;
   min-height: 2.375rem;
   padding-inline-start: 0.75rem;
   padding-inline-end: 2rem;
 }
 
+.daisy-field-wrapper select:hover,
+.form-row select:hover {
+  border-color: oklch(var(--p) / 0.35);
+}
+
 .daisy-field-wrapper select:focus,
 .form-row select:focus {
-  @apply border-primary outline-none ring-2 ring-primary/20;
+  @apply border-primary outline-none ring-2 ring-primary/15 bg-base-100;
 }
 
 /* Multi-select */
@@ -92,13 +111,21 @@ select[multiple] {
 textarea.vLargeTextField,
 .form-row textarea,
 textarea {
-  @apply textarea textarea-bordered w-full text-sm bg-base-100 text-base-content border-base-300 rounded-lg transition-all duration-150 min-h-[120px] leading-relaxed;
+  @apply textarea textarea-bordered w-full text-sm text-base-content rounded-lg transition-all duration-200 min-h-[120px] leading-relaxed;
+  background-color: oklch(var(--b2) / 0.4);
+  border-color: oklch(var(--b3) / 0.6);
+}
+
+.daisy-field-wrapper textarea:hover,
+textarea.vLargeTextField:hover,
+.form-row textarea:hover {
+  border-color: oklch(var(--p) / 0.35);
 }
 
 .daisy-field-wrapper textarea:focus,
 textarea.vLargeTextField:focus,
 .form-row textarea:focus {
-  @apply border-primary outline-none ring-2 ring-primary/20;
+  @apply border-primary outline-none ring-2 ring-primary/15 bg-base-100;
 }
 
 /* 4. Checkboxes & Radios */
