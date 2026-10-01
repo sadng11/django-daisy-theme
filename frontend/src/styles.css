@@ -794,4 +794,56 @@ body > .select2-container--open {
   width: 1.75rem !important;
 }
 
+/* 6. Dual Listbox (Django filter_horizontal / filter_vertical) Fallback Styling */
+.selector {
+  @apply flex flex-wrap items-center gap-4 w-full my-2;
+}
+
+.selector-available,
+.selector-chosen {
+  @apply flex-1 min-w-[280px] card bg-base-100 border border-base-200 shadow-sm overflow-hidden;
+}
+
+.selector-available h2,
+.selector-chosen h2 {
+  @apply p-2.5 bg-base-200/50 border-b border-base-200 text-xs font-bold text-base-content/80 flex items-center justify-between m-0;
+}
+
+.selector-filter {
+  @apply p-2 border-b border-base-200 m-0 relative;
+}
+
+.selector-filter input {
+  @apply input input-bordered input-sm w-full text-xs;
+}
+
+.selector select {
+  @apply w-full p-2 text-xs bg-base-100 text-base-content border-0 focus:outline-none min-h-[160px];
+}
+
+.selector-chooser {
+  @apply flex flex-col gap-2 justify-center items-center my-auto p-1;
+}
+
+.selector-chooser li {
+  @apply list-none m-0 p-0;
+}
+
+.selector-chooser a {
+  @apply btn btn-sm btn-outline text-xs px-3 shadow-sm;
+}
+
+.selector-chooser .selector-add {
+  @apply btn-primary;
+}
+
+.selector .selector-chosen a.selector-clearall {
+  @apply text-error text-xs hover:underline p-2 block text-center;
+}
+
+.selector .selector-available a.selector-chooseall {
+  @apply text-primary text-xs hover:underline p-2 block text-center;
+}
+
+
 

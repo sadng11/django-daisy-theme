@@ -3,14 +3,15 @@
  * Powered by Alpine.js & DaisyUI
  */
 
-document.addEventListener('alpine:init', () => {
-  Alpine.data('daisyAdmin', (defaultTheme = 'light', darkTheme = 'dark') => ({
-    currentTheme: defaultTheme,
-    darkTheme: darkTheme,
-    drawerOpen: false,
-    filterDrawerOpen: false,
-    searchModalOpen: false,
-    selectedItemsCount: 0,
+function registerDaisyAdmin() {
+  if (typeof Alpine !== 'undefined') {
+    Alpine.data('daisyAdmin', (defaultTheme = 'light', darkTheme = 'dark') => ({
+      currentTheme: defaultTheme,
+      darkTheme: darkTheme,
+      drawerOpen: false,
+      filterDrawerOpen: false,
+      searchModalOpen: false,
+      selectedItemsCount: 0,
 
     init() {
       // Restore theme preference
@@ -81,7 +82,14 @@ document.addEventListener('alpine:init', () => {
       this.selectedItemsCount = selected.length;
     },
   }));
-});
+  }
+}
+
+if (typeof Alpine !== 'undefined') {
+  registerDaisyAdmin();
+} else {
+  document.addEventListener('alpine:init', registerDaisyAdmin);
+}
 
 // Immediate theme execution to prevent dark mode flash
 (function () {

@@ -22,8 +22,8 @@
   {% endif %}
 
   <!-- Alpine.js & Theme Scripts -->
-  <script defer src="{% static 'django_daisy_theme/js/alpine.min.js' %}?v={% daisy_version %}"></script>
   <script defer src="{% static 'django_daisy_theme/js/daisy-theme.js' %}?v={% daisy_version %}"></script>
+  <script defer src="{% static 'django_daisy_theme/js/alpine.min.js' %}?v={% daisy_version %}"></script>
 
   {% block extrastyle %}{% endblock %}
   {% block extrahead %}{% endblock %}
@@ -69,7 +69,7 @@
       {% endif %}
 
       <!-- Page Title & Header Actions -->
-      <main class="flex-1 p-4 md:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+      <main class="flex-1 p-4 md:p-6 lg:p-8 max-w-screen-2xl w-full mx-auto">
         {% block content_header %}
         {% if title and not is_index %}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-4 border-b border-base-200">
@@ -91,7 +91,7 @@
 
       <!-- Footer -->
       <footer class="footer footer-center p-4 bg-base-100 border-t border-base-200 text-xs text-base-content/60 mt-auto">
-        <aside class="flex flex-wrap items-center justify-between w-full max-w-7xl px-4">
+        <aside class="flex flex-wrap items-center justify-between w-full max-w-screen-2xl px-4">
           <p>{% daisy_config "FOOTER_TEXT" "Powered by django-daisy-theme" %}</p>
           {% if daisy_theme.SHOW_VERSION %}
           <p class="font-mono text-xs opacity-75">Django Admin &bull; Daisy Theme v0.1.0</p>
