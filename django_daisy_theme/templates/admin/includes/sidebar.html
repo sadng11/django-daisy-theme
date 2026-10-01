@@ -51,7 +51,8 @@
 
       <!-- App & Model Sections -->
       <div class="pt-2 space-y-3">
-        {% for app in app_list %}
+        {% daisy_sidebar_apps as sidebar_apps %}
+        {% for app in sidebar_apps %}
         <div 
           class="space-y-1"
           x-show="!sidebarFilter || '{{ app.name|lower }}'.includes(sidebarFilter.toLowerCase()) || {% for model in app.models %}'{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase()) ||{% endfor %} false"
@@ -63,12 +64,12 @@
           <ul class="space-y-0.5">
             {% for model in app.models %}
             <li 
-              class="group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs hover:bg-base-200 transition-colors"
+              class="group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-colors {% if model.admin_url and model.admin_url in request.path %}bg-primary/10 text-primary font-semibold{% else %}hover:bg-base-200 text-base-content/85{% endif %}"
               x-show="!sidebarFilter || '{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase())"
             >
               {% if model.admin_url %}
               <a href="{{ model.admin_url }}" class="flex-1 truncate hover:text-primary transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-base-content/30 group-hover:bg-primary transition-colors"></span>
+                <span class="w-1.5 h-1.5 rounded-full {% if model.admin_url and model.admin_url in request.path %}bg-primary{% else %}bg-base-content/30 group-hover:bg-primary{% endif %} transition-colors"></span>
                 <span class="truncate">{{ model.name }}</span>
               </a>
               {% else %}
@@ -89,9 +90,7 @@
           </ul>
         </div>
         {% empty %}
-        {% if not is_index %}
         <p class="text-xs text-base-content/60 px-3 py-2 italic">{% translate 'No accessible applications.' %}</p>
-        {% endif %}
         {% endfor %}
       </div>
     </nav>

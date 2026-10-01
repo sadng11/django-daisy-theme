@@ -110,3 +110,16 @@ def daisy_icon(name, css_class="w-5 h-5"):
         f"</svg>"
     )
     return mark_safe(svg)
+
+
+@register.simple_tag(takes_context=True)
+def daisy_sidebar_apps(context):
+    """
+    Returns the list of accessible apps for the sidebar,
+    checking 'available_apps' first (Django admin default on all pages),
+    then falling back to 'app_list' (provided on index page).
+    """
+    if not context or not hasattr(context, "get"):
+        return []
+    return context.get("available_apps") or context.get("app_list") or []
+

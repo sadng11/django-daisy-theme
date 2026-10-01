@@ -7,6 +7,7 @@ from django_daisy_theme.templatetags.daisy_theme import (
     daisy_theme_attr,
     daisy_icon,
     daisy_config,
+    daisy_sidebar_apps,
 )
 
 
@@ -68,3 +69,20 @@ def test_daisy_icon_fallback():
     svg = daisy_icon("non_existing_icon_name")
     assert "<svg" in svg
     assert "lucide-help-circle" in svg or "<circle" in svg
+
+
+def test_daisy_sidebar_apps():
+    # Context with available_apps (standard admin changelist/changeform)
+    ctx1 = {"available_apps": [{"name": "Shop", "models": []}]}
+    assert len(daisy_sidebar_apps(ctx1)) == 1
+    assert daisy_sidebar_apps(ctx1)[0]["name"] == "Shop"
+
+    # Context with app_list fallback (admin index)
+    ctx2 = {"app_list": [{"name": "Auth", "models": []}]}
+    assert len(daisy_sidebar_apps(ctx2)) == 1
+    assert daisy_sidebar_apps(ctx2)[0]["name"] == "Auth"
+
+    # Empty context
+    assert daisy_sidebar_apps({}) == []
+    assert daisy_sidebar_apps(None) == []
+
