@@ -574,3 +574,25 @@ ul.errorlist li {
   inset-inline-end: 0.375rem !important;
 }
 
+/* 5. Select2 in Actions Bar */
+.actions .select2-container {
+  width: auto !important;
+  min-width: 200px !important;
+}
+
+.actions .select2-container--default .select2-selection--single {
+  height: 2rem !important;
+  border-radius: 0.375rem !important;
+}
+
+.actions .select2-container--default .select2-selection--single .select2-selection__rendered {
+  font-size: 0.75rem !important;
+  padding-inline-start: 0.5rem !important;
+  padding-inline-end: 1.5rem !important;
+}
+
+.actions .select2-container--default .select2-selection--single .select2-selection__arrow {
+  inset-inline-end: 0.375rem !important;
+}
+
+
