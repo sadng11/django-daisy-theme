@@ -1,0 +1,64 @@
+{% load i18n admin_urls daisy_theme %}
+<div class="submit-row sticky bottom-0 z-20 bg-base-100/95 backdrop-blur-md border border-base-200 p-3 sm:p-4 rounded-xl shadow-xl flex flex-wrap items-center justify-between gap-3 mt-6">
+  <!-- Left Side: Delete or Cancel Link -->
+  <div class="flex items-center gap-2">
+    {% if show_delete_link and original %}
+      {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+      <a 
+        href="{% add_preserved_filters delete_url %}" 
+        class="btn btn-error btn-outline btn-sm text-xs gap-1.5"
+      >
+        {% daisy_icon "trash" "w-3.5 h-3.5" %}
+        <span>{% translate "Delete" %}</span>
+      </a>
+    {% endif %}
+
+    {% if show_close %}
+      {% url opts|admin_urlname:'changelist' as changelist_url %}
+      <a href="{% add_preserved_filters changelist_url %}" class="btn btn-ghost btn-sm text-xs">
+        {% translate 'Close' %}
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- Right Side: Save Actions -->
+  <div class="flex flex-wrap items-center gap-2">
+    {% if show_save_as_new %}
+      <input 
+        type="submit" 
+        value="{% translate 'Save as new' %}" 
+        name="_saveasnew"
+        class="btn btn-outline btn-sm text-xs"
+      />
+    {% endif %}
+
+    {% if show_save_and_add_another %}
+      <input 
+        type="submit" 
+        value="{% translate 'Save and add another' %}" 
+        name="_addanother"
+        class="btn btn-outline btn-sm text-xs"
+      />
+    {% endif %}
+
+    {% if show_save_and_continue %}
+      <input 
+        type="submit" 
+        value="{% if can_change %}{% translate 'Save and continue editing' %}{% else %}{% translate 'Save and view' %}{% endif %}" 
+        name="_continue"
+        class="btn btn-ghost btn-sm text-xs"
+      />
+    {% endif %}
+
+    {% if show_save %}
+      <button 
+        type="submit" 
+        name="_save"
+        class="btn btn-primary btn-sm text-xs gap-1.5 shadow-sm"
+      >
+        {% daisy_icon "check" "w-3.5 h-3.5" %}
+        <span>{% translate 'Save' %}</span>
+      </button>
+    {% endif %}
+  </div>
+</div>

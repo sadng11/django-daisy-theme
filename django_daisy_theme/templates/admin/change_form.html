@@ -1,0 +1,107 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify daisy_theme %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script src="{% url 'admin:jsi18n' %}"></script>
+  {{ media }}
+{% endblock %}
+
+{% block object-tools %}
+  {% if change and not is_popup %}
+  <div class="flex items-center gap-2">
+    {% block object-tools-items %}
+      {% if has_absolute_url %}
+      <a href="{{ absolute_url }}" target="_blank" class="btn btn-outline btn-sm text-xs gap-1.5">
+        {% daisy_icon "external-link" "w-4 h-4" %}
+        <span>{% translate "View on site" %}</span>
+      </a>
+      {% endif %}
+
+      {% if opts %}
+      <a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="btn btn-ghost btn-sm text-xs gap-1.5">
+        {% daisy_icon "file-text" "w-4 h-4" %}
+        <span>{% translate "History" %}</span>
+      </a>
+      {% endif %}
+    {% endblock %}
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="daisy-changeform max-w-5xl mx-auto space-y-6">
+  <!-- Form Error Summary Banner -->
+  {% if errors %}
+  <div class="alert alert-error shadow-sm text-xs p-4 flex items-start gap-3">
+    {% daisy_icon "alert-circle" "w-5 h-5 flex-shrink-0 mt-0.5" %}
+    <div>
+      <h3 class="font-bold text-sm">
+        {% if errors|length == 1 %}
+          {% translate "Please correct the error below." %}
+        {% else %}
+          {% translate "Please correct the errors below." %}
+        {% endif %}
+      </h3>
+      {% if adminform.form.non_field_errors %}
+        <div class="mt-2 space-y-1">
+          {{ adminform.form.non_field_errors }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Main Form -->
+  <form 
+    {% if has_file_field %}enctype="multipart/form-data" {% endif %}
+    action="{{ form_url }}" 
+    method="post" 
+    id="{{ opts.model_name }}_form" 
+    novalidate
+    class="space-y-6"
+  >
+    {% csrf_token %}
+    <div>
+      {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1">{% endif %}
+      {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}">{% endif %}
+      {% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+
+      <!-- Fieldsets -->
+      {% block field_sets %}
+        {% for fieldset in adminform %}
+          {% include "admin/includes/fieldset.html" %}
+        {% endfor %}
+      {% endblock %}
+
+      {% block after_field_sets %}{% endblock %}
+
+      <!-- Inline Formsets -->
+      {% block inline_field_sets %}
+        {% for inline_admin_formset in inline_admin_formsets %}
+          {% include inline_admin_formset.opts.template %}
+        {% endfor %}
+      {% endblock %}
+
+      {% block after_related_objects %}{% endblock %}
+
+      <!-- Sticky Save Bar Bottom -->
+      {% block submit_buttons_bottom %}
+        {% submit_row %}
+      {% endblock %}
+
+      {% block admin_change_form_document_ready %}
+        <script id="django-admin-form-add-constants" src="{% static 'admin/js/change_form.js' %}" {% if adminform and add %}data-model-name="{{ opts.model_name }}"{% endif %} async></script>
+      {% endblock %}
+
+      {# JavaScript for prepopulated fields #}
+      {% prepopulated_fields_js %}
+    </div>
+  </form>
+</div>
+{% endblock %}
