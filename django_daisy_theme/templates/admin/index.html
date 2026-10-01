@@ -1,0 +1,170 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static log daisy_theme %}
+
+{% block content %}
+<div class="daisy-dashboard space-y-6">
+  <!-- Greeting Header Banner -->
+  <div class="card bg-gradient-to-r from-primary/10 via-base-100 to-secondary/10 border border-base-200 shadow-sm">
+    <div class="card-body p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-base-content flex items-center gap-2">
+          <span>{% translate 'Welcome back,' %}</span>
+          <span class="text-primary">{{ user.get_short_name|default:user.username }}!</span>
+        </h1>
+        <p class="text-xs text-base-content/60">
+          {% translate 'Welcome to the administration dashboard. Select an application below to view or manage records.' %}
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        {% if site_url %}
+        <a href="{{ site_url }}" target="_blank" class="btn btn-outline btn-sm gap-1.5 text-xs">
+          {% daisy_icon "external-link" "w-4 h-4" %}
+          <span>{% translate 'View Site' %}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards Row -->
+  {% include "admin/includes/stats_cards.html" %}
+
+  <!-- Main Grid: Apps List + Recent Actions -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left 2 Cols: Apps & Models -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-base-content flex items-center gap-2">
+          {% daisy_icon "folder" "w-5 h-5 text-primary" %}
+          <span>{% translate 'Applications & Models' %}</span>
+        </h2>
+        <span class="badge badge-sm badge-ghost text-xs">{{ app_list|length }} {% translate 'apps' %}</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for app in app_list %}
+        <div class="card bg-base-100 border border-base-200 shadow-xs hover:shadow-md transition-shadow">
+          <div class="card-body p-5">
+            <!-- App Card Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-base-200">
+              <a href="{{ app.app_url }}" class="font-bold text-sm text-base-content hover:text-primary transition-colors flex items-center gap-2">
+                {% daisy_icon "layers" "w-4 h-4 text-primary" %}
+                <span class="truncate">{{ app.name }}</span>
+              </a>
+              <span class="badge badge-xs badge-neutral text-[10px]">{{ app.models|length }}</span>
+            </div>
+
+            <!-- Models List -->
+            <ul class="divide-y divide-base-200 mt-2">
+              {% for model in app.models %}
+              <li class="py-2 flex items-center justify-between text-xs group">
+                {% if model.admin_url %}
+                <a href="{{ model.admin_url }}" class="flex-1 font-medium hover:text-primary transition-colors flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-base-content/20 group-hover:bg-primary transition-colors"></span>
+                  <span class="truncate">{{ model.name }}</span>
+                </a>
+                {% else %}
+                <span class="flex-1 text-base-content/60">{{ model.name }}</span>
+                {% endif %}
+
+                <div class="flex items-center gap-1">
+                  {% if model.add_url %}
+                  <a 
+                    href="{{ model.add_url }}" 
+                    class="btn btn-ghost btn-xs btn-circle text-primary hover:bg-primary/10"
+                    title="{% translate 'Add' %} {{ model.name }}"
+                  >
+                    {% daisy_icon "plus" "w-3.5 h-3.5" %}
+                  </a>
+                  {% endif %}
+                  {% if model.admin_url %}
+                  <a 
+                    href="{{ model.admin_url }}" 
+                    class="btn btn-ghost btn-xs btn-circle text-base-content/40 hover:text-primary"
+                    title="{% translate 'View' %} {{ model.name }}"
+                  >
+                    {% daisy_icon "chevron-right" "w-3.5 h-3.5" %}
+                  </a>
+                  {% endif %}
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full alert alert-info text-xs">
+          {% daisy_icon "help-circle" "w-4 h-4" %}
+          <span>{% translate "You don’t have permission to view or edit anything." %}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right 1 Col: Recent Actions Feed -->
+    {% if daisy_theme.SHOW_RECENT_ACTIONS %}
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-base-content flex items-center gap-2">
+          {% daisy_icon "edit" "w-5 h-5 text-secondary" %}
+          <span>{% translate 'Recent Actions' %}</span>
+        </h2>
+      </div>
+
+      <div class="card bg-base-100 border border-base-200 shadow-xs">
+        <div class="card-body p-4">
+          {% if log_entries is not None %}
+            {% get_admin_log 10 as admin_log for_user user %}
+          {% endif %}
+          {% if not admin_log %}
+          <p class="text-xs text-base-content/50 italic py-4 text-center">
+            {% translate 'None available' %}
+          </p>
+          {% else %}
+          <ul class="space-y-3">
+            {% for entry in admin_log %}
+            <li class="flex items-start gap-2.5 text-xs pb-3 border-b border-base-200 last:border-b-0 last:pb-0">
+              <span class="mt-0.5">
+                {% if entry.is_addition %}
+                  <span class="badge badge-success badge-xs p-1" title="{% translate 'Added' %}">
+                    {% daisy_icon "plus" "w-2.5 h-2.5 text-white" %}
+                  </span>
+                {% elif entry.is_change %}
+                  <span class="badge badge-info badge-xs p-1" title="{% translate 'Changed' %}">
+                    {% daisy_icon "edit" "w-2.5 h-2.5 text-white" %}
+                  </span>
+                {% elif entry.is_deletion %}
+                  <span class="badge badge-error badge-xs p-1" title="{% translate 'Deleted' %}">
+                    {% daisy_icon "trash" "w-2.5 h-2.5 text-white" %}
+                  </span>
+                {% endif %}
+              </span>
+
+              <div class="flex-1 min-w-0">
+                <div class="font-medium truncate text-base-content">
+                  {% if entry.is_deletion or not entry.get_admin_url %}
+                    {{ entry.object_repr }}
+                  {% else %}
+                    <a href="{{ entry.get_admin_url }}" class="hover:text-primary transition-colors">
+                      {{ entry.object_repr }}
+                    </a>
+                  {% endif %}
+                </div>
+                <div class="flex items-center gap-1.5 text-[10px] text-base-content/50 mt-0.5">
+                  <span class="capitalize">{{ entry.content_type.name }}</span>
+                  <span>&bull;</span>
+                  <span>{{ entry.action_time|date:"Y/m/d H:i" }}</span>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

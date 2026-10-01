@@ -1,0 +1,50 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls daisy_theme %}
+
+{% block title %}{% translate 'Are you sure?' %} | {% daisy_config "SITE_TITLE" "Django Administration" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="card bg-base-100 border border-base-200 shadow-md">
+    <div class="card-body p-6 space-y-4">
+      <div class="flex items-center gap-3 pb-3 border-b border-base-200">
+        <div class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center flex-shrink-0">
+          {% daisy_icon "trash" "w-5 h-5" %}
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-base-content">
+            {% blocktranslate %}Are you sure you want to delete the selected objects?{% endblocktranslate %}
+          </h2>
+          <p class="text-xs text-base-content/60">
+            {% translate 'All of the following objects and their related items will be deleted from the database:' %}
+          </p>
+        </div>
+      </div>
+
+      {% if deletable_objects %}
+      <div class="bg-base-200/50 rounded-xl p-4 max-h-64 overflow-y-auto text-xs space-y-1">
+        <ul class="list-disc ps-5 space-y-1 text-base-content/80">
+          {{ deletable_objects|unordered_list }}
+        </ul>
+      </div>
+      {% endif %}
+
+      <form method="post" class="flex items-center justify-end gap-3 pt-4 border-t border-base-200">
+        {% csrf_token %}
+        {% for obj in queryset %}
+        <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk|unlocalize }}">
+        {% endfor %}
+        <input type="hidden" name="action" value="delete_selected">
+        <input type="hidden" name="post" value="yes">
+        <a href="#" onclick="window.history.back(); return false;" class="btn btn-ghost btn-sm text-xs">
+          {% translate 'Cancel' %}
+        </a>
+        <button type="submit" class="btn btn-error btn-sm text-xs gap-1.5 shadow-sm">
+          {% daisy_icon "trash" "w-4 h-4" %}
+          <span>{% translate "Yes, I'm sure" %}</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

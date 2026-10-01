@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load i18n daisy_theme %}
+
+{% block title %}404 - {% translate 'Page not found' %} | {% daisy_config "SITE_TITLE" "Django Administration" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-[50vh] flex items-center justify-center">
+  <div class="card bg-base-100 border border-base-200 shadow-xl max-w-md w-full text-center p-8 space-y-4">
+    <div class="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mx-auto">
+      {% daisy_icon "alert-circle" "w-8 h-8" %}
+    </div>
+    <div class="space-y-1">
+      <h1 class="text-3xl font-extrabold text-base-content">404</h1>
+      <h2 class="text-lg font-bold text-base-content/80">{% translate 'Page Not Found' %}</h2>
+      <p class="text-xs text-base-content/60">
+        {% translate "We couldn't find the page you requested. Please check the URL or return to the dashboard." %}
+      </p>
+    </div>
+    <div class="pt-4">
+      <a href="{% url 'admin:index' %}" class="btn btn-primary btn-sm gap-2">
+        {% daisy_icon "home" "w-4 h-4" %}
+        <span>{% translate 'Back to Dashboard' %}</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
