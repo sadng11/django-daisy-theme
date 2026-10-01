@@ -8,6 +8,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        sans: [
+          "Vazirmatn",
+          "Inter",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
         vazir: ["Vazirmatn", "system-ui", "-apple-system", "sans-serif"],
         inter: ["Inter", "system-ui", "-apple-system", "sans-serif"],
       },

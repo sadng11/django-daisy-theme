@@ -16,10 +16,10 @@
   {% endif %}
 
   <!-- Stylesheets -->
+  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/daisy-theme.min.css' %}">
   {% if daisy_theme.LOAD_DEFAULT_FONTS %}
   <link rel="stylesheet" href="{% static 'django_daisy_theme/css/fonts.css' %}">
   {% endif %}
-  <link rel="stylesheet" href="{% static 'django_daisy_theme/css/daisy-theme.min.css' %}">
 
   <!-- Alpine.js & Theme Scripts -->
   <script defer src="{% static 'django_daisy_theme/js/alpine.min.js' %}"></script>
@@ -30,7 +30,7 @@
 </head>
 
 <body 
-  class="min-h-screen bg-base-200/50 text-base-content antialiased flex flex-col font-sans"
+  class="min-h-screen bg-base-200/50 text-base-content antialiased flex flex-col"
   x-data="daisyAdmin('{% daisy_theme_attr %}', '{% daisy_config "DARK_THEME" "dark" %}')"
 >
   {% if not is_popup and user.is_authenticated and user.is_staff %}
