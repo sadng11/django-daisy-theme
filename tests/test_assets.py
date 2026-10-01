@@ -12,6 +12,7 @@ def test_static_assets_exist():
     assert (base_static / "css" / "fonts.css").is_file()
     assert (base_static / "js" / "alpine.min.js").is_file()
     assert (base_static / "js" / "daisy-theme.js").is_file()
+    assert (base_static / "js" / "select2-init.js").is_file()
     assert (base_static / "fonts" / "vazirmatn").is_dir()
     assert (base_static / "fonts" / "inter").is_dir()
 

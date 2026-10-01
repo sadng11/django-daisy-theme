@@ -1,3 +1,4 @@
+from django.utils import translation
 from django_daisy_theme.settings import get_theme_config
 
 
@@ -7,4 +8,6 @@ def daisy_theme_context(request):
     """
     return {
         "daisy_theme": get_theme_config(),
+        "LANGUAGE_CODE": translation.get_language() or "en",
     }
+

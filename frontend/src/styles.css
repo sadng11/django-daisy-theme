@@ -346,3 +346,231 @@ ul.errorlist li {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(156, 163, 175, 0.7);
 }
+
+/* ==========================================================================
+   Select2 DaisyUI Theme Integration (Full Dark/Light + RTL Support)
+   ========================================================================== */
+
+/* 1. Main Select2 Container & Selection Box */
+.select2-container {
+  width: 100% !important;
+  font-family: inherit !important;
+}
+
+.select2-container--default .select2-selection--single {
+  background-color: hsl(var(--b1)) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  border-radius: 0.5rem !important;
+  height: 2.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: all 150ms ease-in-out !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single {
+  border-color: hsl(var(--p)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--p) / 0.2) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: hsl(var(--bc)) !important;
+  padding-inline-start: 1rem !important;
+  padding-inline-end: 2.25rem !important;
+  line-height: normal !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  flex: 1 1 auto !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: hsl(var(--bc) / 0.5) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  inset-inline-end: 0.75rem !important;
+  width: 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-color: hsl(var(--bc) / 0.7) transparent transparent transparent !important;
+  border-width: 5px 4px 0 4px !important;
+  transition: transform 150ms ease !important;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border-color: transparent transparent hsl(var(--bc) / 0.7) transparent !important;
+  border-width: 0 4px 5px 4px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+  color: hsl(var(--er)) !important;
+  font-size: 1.125rem !important;
+  font-weight: bold !important;
+  inset-inline-end: 2rem !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  line-height: 1 !important;
+}
+
+/* 2. Multiple Select2 (Tags / ManyToMany) */
+.select2-container--default .select2-selection--multiple {
+  background-color: hsl(var(--b1)) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  border-radius: 0.5rem !important;
+  min-height: 2.75rem !important;
+  padding: 0.25rem 0.5rem !important;
+  transition: all 150ms ease-in-out !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--multiple {
+  border-color: hsl(var(--p)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--p) / 0.2) !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: hsl(var(--b2)) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  border-radius: 0.375rem !important;
+  color: hsl(var(--bc)) !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: hsl(var(--er)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  font-weight: bold !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+  color: hsl(var(--bc)) !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  margin: 0 !important;
+  padding: 0.25rem !important;
+}
+
+/* 3. Dropdown Menu & Results */
+.select2-dropdown {
+  background-color: hsl(var(--b1)) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden !important;
+  z-index: 99999 !important;
+  color: hsl(var(--bc)) !important;
+  font-family: inherit !important;
+}
+
+.select2-container--open .select2-dropdown--below {
+  margin-top: 6px !important;
+  border-radius: 0.75rem !important;
+}
+
+.select2-container--open .select2-dropdown--above {
+  margin-bottom: 6px !important;
+  border-radius: 0.75rem !important;
+}
+
+/* Search input inside dropdown */
+.select2-search--dropdown {
+  padding: 0.625rem !important;
+  background-color: hsl(var(--b2) / 0.5) !important;
+  border-bottom: 1px solid hsl(var(--b3)) !important;
+}
+
+.select2-search--dropdown .select2-search__field {
+  background-color: hsl(var(--b1)) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  border-radius: 0.5rem !important;
+  color: hsl(var(--bc)) !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.8125rem !important;
+  font-family: inherit !important;
+  width: 100% !important;
+  outline: none !important;
+  transition: all 150ms ease !important;
+}
+
+.select2-search--dropdown .select2-search__field:focus {
+  border-color: hsl(var(--p)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--p) / 0.2) !important;
+}
+
+.select2-results__options {
+  padding: 0.375rem !important;
+  max-height: 260px !important;
+}
+
+.select2-results__option {
+  padding: 0.5rem 0.875rem !important;
+  font-size: 0.875rem !important;
+  color: hsl(var(--bc)) !important;
+  transition: all 120ms ease !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.125rem !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.select2-results__option--highlighted.select2-results__option--selectable {
+  background-color: hsl(var(--b2)) !important;
+  color: hsl(var(--bc)) !important;
+}
+
+.select2-results__option--selected {
+  background-color: hsl(var(--p)) !important;
+  color: hsl(var(--pc)) !important;
+  font-weight: 600 !important;
+}
+
+.select2-results__option--selected.select2-results__option--highlighted {
+  background-color: hsl(var(--p)) !important;
+  color: hsl(var(--pc)) !important;
+}
+
+.select2-results__message {
+  padding: 1rem !important;
+  color: hsl(var(--bc) / 0.6) !important;
+  font-size: 0.8125rem !important;
+  text-align: center !important;
+}
+
+/* 4. Select2 in Tabular Inlines & Compact Tables */
+.daisy-admin-table .select2-container--default .select2-selection--single {
+  height: 2rem !important;
+  border-radius: 0.375rem !important;
+}
+
+.daisy-admin-table .select2-container--default .select2-selection--single .select2-selection__rendered {
+  font-size: 0.75rem !important;
+  padding-inline-start: 0.5rem !important;
+  padding-inline-end: 1.5rem !important;
+}
+
+.daisy-admin-table .select2-container--default .select2-selection--single .select2-selection__arrow {
+  inset-inline-end: 0.375rem !important;
+}
+

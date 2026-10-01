@@ -43,6 +43,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django_daisy_theme.context_processors.daisy_theme_context",
@@ -97,6 +98,7 @@ DAISY_THEME_CONFIG = {
     ],
     "DIRECTION": "auto",
     "LOAD_DEFAULT_FONTS": True,
+    "ENABLE_SELECT2": True,
     "COLLAPSIBLE_SIDEBAR": True,
     "SHOW_RECENT_ACTIONS": True,
     "CUSTOM_LINKS": [
