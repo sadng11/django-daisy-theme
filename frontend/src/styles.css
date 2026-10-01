@@ -48,7 +48,10 @@
 .form-row input[type="url"],
 .form-row input[type="number"] {
   @apply input input-bordered w-full text-sm bg-base-100 text-base-content border-base-300 rounded-lg transition-all duration-150;
-  min-height: 2.75rem;
+  height: 2.375rem;
+  min-height: 2.375rem;
+  padding-inline-start: 0.75rem;
+  padding-inline-end: 0.75rem;
 }
 
 .daisy-field-wrapper input:focus,
@@ -67,7 +70,10 @@ select[data-context],
 .form-row select,
 select.form-select {
   @apply select select-bordered w-full text-sm bg-base-100 text-base-content border-base-300 rounded-lg transition-all duration-150;
-  min-height: 2.75rem;
+  height: 2.375rem;
+  min-height: 2.375rem;
+  padding-inline-start: 0.75rem;
+  padding-inline-end: 2rem;
 }
 
 .daisy-field-wrapper select:focus,
@@ -117,7 +123,7 @@ input[type="radio"] {
 }
 
 .related-widget-wrapper-link {
-  @apply inline-flex items-center justify-center w-11 h-11 rounded-lg bg-base-200 border border-base-300 text-base-content hover:bg-primary hover:text-primary-content hover:border-primary transition-all duration-150 shrink-0 shadow-sm;
+  @apply inline-flex items-center justify-center w-[2.375rem] h-[2.375rem] rounded-lg bg-base-200 border border-base-300 text-base-content hover:bg-primary hover:text-primary-content hover:border-primary transition-all duration-150 shrink-0 shadow-sm;
 }
 
 .related-widget-wrapper-link img {
@@ -389,8 +395,8 @@ body > .select2-container--open {
   background-color: var(--fallback-b1, oklch(var(--b1) / 1)) !important;
   border: 1px solid var(--fallback-b3, oklch(var(--b3) / 1)) !important;
   border-radius: 0.5rem !important;
-  height: 2.75rem !important;
-  min-height: 2.75rem !important;
+  height: 2.375rem !important;
+  min-height: 2.375rem !important;
   display: flex !important;
   align-items: center !important;
   position: relative !important;
@@ -411,9 +417,9 @@ body > .select2-container--open {
 .select2-container--default .select2-selection--single .select2-selection__rendered,
 .select2-selection--single .select2-selection__rendered {
   color: var(--fallback-bc, oklch(var(--bc) / 1)) !important;
-  padding-inline-start: 1rem !important;
-  padding-inline-end: 2.75rem !important;
-  line-height: 2.75rem !important;
+  padding-inline-start: 0.75rem !important;
+  padding-inline-end: 2.25rem !important;
+  line-height: 2.375rem !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
   font-family: inherit !important;
@@ -489,7 +495,7 @@ body > .select2-container--open {
   background-color: var(--fallback-b1, oklch(var(--b1) / 1)) !important;
   border: 1px solid var(--fallback-b3, oklch(var(--b3) / 1)) !important;
   border-radius: 0.5rem !important;
-  min-height: 2.75rem !important;
+  min-height: 2.375rem !important;
   padding: 0.25rem 0.5rem !important;
   transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
   display: flex !important;
