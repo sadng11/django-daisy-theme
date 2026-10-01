@@ -1,0 +1,107 @@
+{% load i18n daisy_theme %}
+<aside 
+  class="bg-base-100 w-64 md:w-72 min-h-screen flex flex-col justify-between p-4 text-base-content" 
+  x-data="{ sidebarFilter: '' }"
+>
+  <!-- Top: Logo & Nav items -->
+  <div class="space-y-4">
+    <!-- Sidebar Header / Brand -->
+    <div class="px-2 py-1 flex items-center justify-between">
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-2.5">
+        {% if daisy_theme.SITE_LOGO %}
+        <img src="{{ daisy_theme.SITE_LOGO }}" alt="Logo" class="h-8 w-auto">
+        {% else %}
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-content shadow-xs">
+          {% daisy_icon "layers" "w-5 h-5" %}
+        </div>
+        {% endif %}
+        <div class="flex flex-col">
+          <span class="font-bold text-sm tracking-tight">{% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}</span>
+          <span class="text-[10px] text-base-content/60 uppercase tracking-wider font-semibold">{% translate 'Control Panel' %}</span>
+        </div>
+      </a>
+      <label for="admin-drawer" class="btn btn-ghost btn-square btn-xs lg:hidden" aria-label="Close sidebar">
+        {% daisy_icon "x" "w-4 h-4" %}
+      </label>
+    </div>
+
+    <!-- Quick filter input for models -->
+    <div class="relative px-1">
+      <input 
+        type="text" 
+        placeholder="{% translate 'Filter navigation...' %}" 
+        x-model="sidebarFilter"
+        class="input input-bordered input-xs w-full pe-8 text-xs bg-base-200/50 focus:bg-base-100"
+      />
+      <span class="absolute end-3 top-1.5 opacity-40">
+        {% daisy_icon "search" "w-3.5 h-3.5" %}
+      </span>
+    </div>
+
+    <!-- Navigation Tree -->
+    <nav class="space-y-1">
+      <!-- Dashboard Home -->
+      <a 
+        href="{% url 'admin:index' %}" 
+        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium hover:bg-base-200 transition-colors {% if is_index %}bg-primary text-primary-content hover:bg-primary{% endif %}"
+      >
+        {% daisy_icon "dashboard" "w-4 h-4 opacity-80" %}
+        <span>{% translate 'Dashboard' %}</span>
+      </a>
+
+      <!-- App & Model Sections -->
+      <div class="pt-2 space-y-3">
+        {% for app in app_list %}
+        <div 
+          class="space-y-1"
+          x-show="!sidebarFilter || '{{ app.name|lower }}'.includes(sidebarFilter.toLowerCase()) || {% for model in app.models %}'{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase()) ||{% endfor %} false"
+        >
+          <div class="px-3 text-[11px] font-bold text-base-content/50 uppercase tracking-wider flex items-center justify-between">
+            <span>{{ app.name }}</span>
+          </div>
+
+          <ul class="space-y-0.5">
+            {% for model in app.models %}
+            <li 
+              class="group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs hover:bg-base-200 transition-colors"
+              x-show="!sidebarFilter || '{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase())"
+            >
+              {% if model.admin_url %}
+              <a href="{{ model.admin_url }}" class="flex-1 truncate hover:text-primary transition-colors flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-base-content/30 group-hover:bg-primary transition-colors"></span>
+                <span class="truncate">{{ model.name }}</span>
+              </a>
+              {% else %}
+              <span class="flex-1 truncate text-base-content/60">{{ model.name }}</span>
+              {% endif %}
+
+              {% if model.add_url %}
+              <a 
+                href="{{ model.add_url }}" 
+                class="opacity-0 group-hover:opacity-100 btn btn-ghost btn-xs btn-square text-base-content/60 hover:text-primary transition-opacity"
+                title="{% translate 'Add' %} {{ model.name }}"
+              >
+                {% daisy_icon "plus" "w-3.5 h-3.5" %}
+              </a>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% empty %}
+        {% if not is_index %}
+        <p class="text-xs text-base-content/60 px-3 py-2 italic">{% translate 'No accessible applications.' %}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </nav>
+  </div>
+
+  <!-- Bottom Info -->
+  <div class="pt-4 border-t border-base-200">
+    <div class="flex items-center gap-2.5 px-2 py-1">
+      <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+      <span class="text-[11px] text-base-content/70">{% translate 'System Online' %}</span>
+    </div>
+  </div>
+</aside>

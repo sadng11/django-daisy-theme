@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% load i18n daisy_theme %}
+
+{% block title %}
+{{ title }} | {% daisy_config "SITE_TITLE" "Django Administration" %}
+{% endblock %}
+
+{% block branding %}
+<div class="flex items-center gap-2.5">
+  {% if daisy_theme.SITE_LOGO %}
+  <img src="{{ daisy_theme.SITE_LOGO }}" alt="Logo" class="h-8 w-auto">
+  {% else %}
+  <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+    {% daisy_icon "layers" "w-5 h-5" %}
+  </div>
+  {% endif %}
+  <a href="{% url 'admin:index' %}" class="font-bold text-lg md:text-xl tracking-tight text-base-content hover:text-primary transition-colors">
+    {% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "admin/base.html" %}
+{% load i18n static daisy_theme %}
+
+{% block title %}{% translate 'Log in' %} | {% daisy_config "SITE_TITLE" "Django Administration" %}{% endblock %}
+
+{% block standalone_content %}
+<div class="min-h-screen flex flex-col justify-center items-center p-4 bg-gradient-to-br from-base-200 via-base-100 to-base-300 relative">
+  <!-- Top Bar for Login Screen (Theme Switcher) -->
+  <div class="absolute top-4 end-4">
+    {% include "admin/includes/theme_toggle.html" %}
+  </div>
+
+  <div class="w-full max-w-md">
+    <!-- Login Card -->
+    <div class="card bg-base-100/90 backdrop-blur-md shadow-2xl border border-base-200">
+      <div class="card-body p-6 sm:p-8">
+        <!-- Brand Header -->
+        <div class="text-center mb-6 space-y-2">
+          {% if daisy_theme.SITE_LOGO %}
+          <img src="{{ daisy_theme.SITE_LOGO }}" alt="Logo" class="h-12 w-auto mx-auto">
+          {% else %}
+          <div class="w-12 h-12 rounded-2xl bg-primary text-primary-content flex items-center justify-center mx-auto shadow-md">
+            {% daisy_icon "layers" "w-6 h-6" %}
+          </div>
+          {% endif %}
+          <h1 class="text-2xl font-bold tracking-tight text-base-content">
+            {% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}
+          </h1>
+          <p class="text-xs text-base-content/60">
+            {% translate 'Please enter your credentials to access the administration panel.' %}
+          </p>
+        </div>
+
+        <!-- Errors -->
+        {% if form.errors and not form.non_field_errors %}
+        <div class="alert alert-error text-xs p-3 mb-4 shadow-xs">
+          {% daisy_icon "alert-circle" "w-4 h-4" %}
+          <span>{% translate 'Please correct the errors below.' %}</span>
+        </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-error text-xs p-3 mb-4 shadow-xs">
+          {% daisy_icon "alert-circle" "w-4 h-4" %}
+          <span>{{ error }}</span>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="alert alert-warning text-xs p-3 mb-4 shadow-xs">
+          {% daisy_icon "alert-circle" "w-4 h-4" %}
+          <span>
+            {% blocktranslate trimmed %}
+            You are authenticated as {{ username }}, but are not authorized to access this page. Would you like to login to a different account?
+            {% endblocktranslate %}
+          </span>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form action="{{ app_path }}" method="post" id="login-form" class="space-y-4">
+          {% csrf_token %}
+          
+          <!-- Username -->
+          <div class="form-control">
+            <label class="label py-1">
+              <span class="label-text text-xs font-semibold">{% translate 'Username' %}</span>
+            </label>
+            <div class="relative">
+              <input 
+                type="text" 
+                name="username" 
+                autofocus 
+                autocapitalize="none" 
+                autocomplete="username" 
+                maxlength="150" 
+                required 
+                id="id_username"
+                class="input input-bordered w-full ps-10 text-sm focus:input-primary" 
+                placeholder="{% translate 'Enter your username' %}"
+              />
+              <span class="absolute start-3 top-3 opacity-40">
+                {% daisy_icon "user" "w-4 h-4" %}
+              </span>
+            </div>
+            {% if form.username.errors %}
+            <label class="label py-0.5">
+              <span class="label-text-alt text-error text-[11px]">{{ form.username.errors|striptags }}</span>
+            </label>
+            {% endif %}
+          </div>
+
+          <!-- Password -->
+          <div class="form-control">
+            <label class="label py-1">
+              <span class="label-text text-xs font-semibold">{% translate 'Password' %}</span>
+            </label>
+            <div class="relative">
+              <input 
+                type="password" 
+                name="password" 
+                autocomplete="current-password" 
+                required 
+                id="id_password"
+                class="input input-bordered w-full ps-10 text-sm focus:input-primary" 
+                placeholder="••••••••"
+              />
+              <span class="absolute start-3 top-3 opacity-40">
+                {% daisy_icon "key" "w-4 h-4" %}
+              </span>
+            </div>
+            {% if form.password.errors %}
+            <label class="label py-0.5">
+              <span class="label-text-alt text-error text-[11px]">{{ form.password.errors|striptags }}</span>
+            </label>
+            {% endif %}
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2">
+            <button type="submit" class="btn btn-primary w-full shadow-md font-semibold text-sm">
+              {% daisy_icon "log-out" "w-4 h-4 rotate-180" %}
+              <span>{% translate 'Log in' %}</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Footer Notice -->
+        <div class="mt-6 pt-4 border-t border-base-200 text-center">
+          <p class="text-[11px] text-base-content/50">
+            {% daisy_config "FOOTER_TEXT" "Powered by django-daisy-theme" %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

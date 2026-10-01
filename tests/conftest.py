@@ -42,6 +42,7 @@ def pytest_configure():
             },
         ],
         STATIC_URL="/static/",
+        ROOT_URLCONF="tests.urls",
         LANGUAGE_CODE="en",
     )
     django.setup()

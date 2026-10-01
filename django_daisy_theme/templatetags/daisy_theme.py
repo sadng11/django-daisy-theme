@@ -40,30 +40,58 @@ LUCIDE_ICONS = {
 }
 
 
-@register.simple_tag
-def daisy_direction(request=None):
+@register.simple_tag(takes_context=True)
+def daisy_direction(context=None, request=None):
     """
-    Returns 'rtl' or 'ltr' based on configuration or active language.
+    Returns 'rtl' or 'ltr' based on configuration, context, or active language.
     """
-    direction = get_theme_config("DIRECTION")
+    direction = None
+    if context and hasattr(context, "get") and "daisy_theme" in context:
+        theme_ctx = context.get("daisy_theme")
+        if isinstance(theme_ctx, dict):
+            direction = theme_ctx.get("DIRECTION")
+    if not direction or direction == "auto":
+        direction = get_theme_config("DIRECTION")
     if direction in ("rtl", "ltr"):
         return direction
     return "rtl" if translation.get_language_bidi() else "ltr"
 
 
-@register.simple_tag
-def daisy_theme_attr():
+@register.simple_tag(takes_context=True)
+def daisy_theme_attr(context=None):
     """
     Returns the default DaisyUI theme attribute value.
     """
+    if context and hasattr(context, "get") and "daisy_theme" in context:
+        theme_ctx = context.get("daisy_theme")
+        if isinstance(theme_ctx, dict) and "DEFAULT_THEME" in theme_ctx:
+            val = theme_ctx["DEFAULT_THEME"]
+            if val:
+                return val
     return get_theme_config("DEFAULT_THEME") or "light"
 
 
-@register.simple_tag
-def daisy_config(key, default=None):
+@register.simple_tag(takes_context=True)
+def daisy_config(context=None, key=None, default=None):
     """
-    Fetches a configuration setting from DAISY_THEME_CONFIG with optional fallback.
+    Fetches a configuration setting from context/DAISY_THEME_CONFIG with optional fallback.
+    Supports both template rendering (with context) and direct programmatic calls.
     """
+    if key is None and isinstance(context, str):
+        key = context
+        context = None
+    elif isinstance(context, str) and not hasattr(context, "get"):
+        default = key
+        key = context
+        context = None
+
+    if context and hasattr(context, "get") and "daisy_theme" in context:
+        theme_ctx = context.get("daisy_theme")
+        if isinstance(theme_ctx, dict) and key in theme_ctx:
+            val = theme_ctx[key]
+            if val is not None:
+                return val
+
     val = get_theme_config(key)
     return default if val is None else val
 

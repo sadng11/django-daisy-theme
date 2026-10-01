@@ -1,0 +1,91 @@
+{% load i18n daisy_theme %}
+<header class="navbar bg-base-100 border-b border-base-200 px-4 sticky top-0 z-30 shadow-xs">
+  <!-- Left Side: Mobile Menu Button & Brand -->
+  <div class="navbar-start gap-2">
+    <!-- Hamburger button for mobile -->
+    <label for="admin-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Toggle sidebar">
+      {% daisy_icon "menu" "w-5 h-5" %}
+    </label>
+
+    <div class="hidden sm:block">
+      {% block branding_nav %}
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-2 font-bold text-base md:text-lg tracking-tight hover:text-primary transition-colors">
+        {% if daisy_theme.SITE_LOGO %}
+        <img src="{{ daisy_theme.SITE_LOGO }}" alt="Logo" class="h-7 w-auto">
+        {% else %}
+        <span class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+          {% daisy_icon "layers" "w-4 h-4" %}
+        </span>
+        {% endif %}
+        <span>{% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}</span>
+      </a>
+      {% endblock %}
+    </div>
+  </div>
+
+  <!-- Center: Quick search / command palette trigger (optional) -->
+  <div class="navbar-center hidden md:flex">
+    <!-- Reserved for quick search -->
+  </div>
+
+  <!-- Right Side: External links, Theme switcher, User menu -->
+  <div class="navbar-end gap-2">
+    {% for link in daisy_theme.CUSTOM_LINKS %}
+    <a 
+      href="{{ link.url }}" 
+      target="{{ link.target|default:'_self' }}" 
+      class="btn btn-ghost btn-sm gap-1 text-xs hidden sm:inline-flex"
+    >
+      {% if link.icon %}{% daisy_icon link.icon "w-4 h-4" %}{% endif %}
+      <span>{{ link.title }}</span>
+    </a>
+    {% endfor %}
+
+    <!-- Theme Switcher -->
+    {% include "admin/includes/theme_toggle.html" %}
+
+    <!-- User Profile Dropdown -->
+    {% if user.is_authenticated %}
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder btn-sm">
+        <div class="bg-primary text-primary-content rounded-full w-8 h-8 shadow-xs">
+          <span class="text-xs uppercase font-bold">{{ user.username|slice:":2" }}</span>
+        </div>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-50 menu p-2 shadow-2xl bg-base-100 border border-base-200 rounded-box w-56 mt-2">
+        <li class="menu-title px-3 py-2 border-b border-base-200">
+          <div class="flex flex-col">
+            <span class="font-bold text-sm text-base-content">{{ user.get_full_name|default:user.username }}</span>
+            <span class="text-xs text-base-content/60 font-normal">@{{ user.username }}</span>
+          </div>
+        </li>
+        {% if site_url %}
+        <li>
+          <a href="{{ site_url }}" target="_blank" class="py-2 text-xs flex items-center gap-2">
+            {% daisy_icon "external-link" "w-4 h-4 opacity-70" %}
+            <span>{% translate 'View site' %}</span>
+          </a>
+        </li>
+        {% endif %}
+        {% if user.has_usable_password %}
+        <li>
+          <a href="{% url 'admin:password_change' %}" class="py-2 text-xs flex items-center gap-2">
+            {% daisy_icon "key" "w-4 h-4 opacity-70" %}
+            <span>{% translate 'Change password' %}</span>
+          </a>
+        </li>
+        {% endif %}
+        <li class="border-t border-base-200 mt-1 pt-1">
+          <form method="post" action="{% url 'admin:logout' %}" class="p-0">
+            {% csrf_token %}
+            <button type="submit" class="w-full text-start py-2 text-xs text-error flex items-center gap-2 hover:bg-error/10">
+              {% daisy_icon "log-out" "w-4 h-4" %}
+              <span>{% translate 'Log out' %}</span>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</header>
