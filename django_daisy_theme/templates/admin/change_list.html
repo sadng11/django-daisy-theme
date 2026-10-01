@@ -165,26 +165,7 @@
           {% endif %}
 
           {% for spec in cl.filter_specs %}
-          <div class="space-y-2">
-            <h4 class="font-semibold text-xs text-base-content/80 uppercase tracking-wider">
-              {{ spec.title }}
-            </h4>
-            <ul class="menu bg-base-200/50 rounded-box p-1 text-xs space-y-0.5">
-              {% for choice in spec.choices %}
-              <li>
-                <a 
-                  href="{{ choice.query_string }}" 
-                  class="flex items-center justify-between py-1.5 {% if choice.selected %}active font-bold{% endif %}"
-                >
-                  <span class="truncate">{{ choice.display }}</span>
-                  {% if choice.selected %}
-                    {% daisy_icon "check" "w-3.5 h-3.5" %}
-                  {% endif %}
-                </a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
+          {% admin_list_filter cl spec %}
           {% endfor %}
         </div>
 
