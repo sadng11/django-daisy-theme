@@ -33,6 +33,16 @@ module.exports = {
     {
       pattern: /drawer-(open|toggle|side|content)/,
     },
+    {
+      pattern: /(input|select|textarea|checkbox|radio|toggle|file-input)-(bordered|primary|secondary|accent|info|success|warning|error|sm|md|lg|xs)/,
+    },
+    "input",
+    "select",
+    "textarea",
+    "checkbox",
+    "radio",
+    "toggle",
+    "file-input",
   ],
   plugins: [require("daisyui")],
   daisyui: {
