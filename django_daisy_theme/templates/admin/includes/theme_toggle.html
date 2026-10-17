@@ -1,10 +1,10 @@
 {% load i18n daisy_theme %}
 {% if daisy_theme.SHOW_THEME_SWITCHER %}
 <div class="flex items-center gap-1.5" x-cloak>
-  <!-- Quick Dark/Light Toggle -->
+  <!-- Quick Dark/Light Toggle Button -->
   <button 
     type="button"
-    class="btn btn-ghost btn-circle btn-sm"
+    class="btn btn-ghost btn-circle btn-sm h-8 w-8 min-h-8 border border-base-content/10 hover:border-base-content/20 hover:bg-base-200/60 shadow-xs transition-all"
     @click="toggleDarkLight()"
     :title="currentTheme === darkTheme ? '{% translate 'Switch to light mode' %}' : '{% translate 'Switch to dark mode' %}'"
     aria-label="Toggle dark/light theme"
@@ -19,33 +19,75 @@
 
   <!-- DaisyUI Theme Selection Dropdown -->
   <div class="dropdown dropdown-end">
-    <div tabindex="0" role="button" class="btn btn-ghost btn-sm gap-1.5 px-2 font-normal">
-      <span class="inline-block w-2.5 h-2.5 rounded-full bg-primary"></span>
-      <span class="text-xs capitalize hidden md:inline" x-text="currentTheme"></span>
-      {% daisy_icon "chevron-down" "w-3.5 h-3.5 opacity-60" %}
+    <!-- Trigger Button -->
+    <div 
+      tabindex="0" 
+      role="button" 
+      class="btn btn-ghost btn-sm h-8 min-h-8 gap-2 px-2.5 rounded-lg border border-base-content/10 hover:border-base-content/20 hover:bg-base-200/60 shadow-xs text-xs font-medium transition-all group"
+      title="{% translate 'Select Theme' %}"
+    >
+      <span class="flex items-center gap-1.5">
+        <span class="w-4 h-4 rounded-md bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          {% daisy_icon "palette" "w-3 h-3" %}
+        </span>
+        <span class="capitalize text-xs font-medium hidden sm:inline text-base-content/90" x-text="currentTheme"></span>
+      </span>
+      {% daisy_icon "chevron-down" "w-3 h-3 opacity-50 group-hover:opacity-80 transition-transform duration-200 group-focus-within:rotate-180" %}
     </div>
-    <ul tabindex="0" class="dropdown-content z-50 menu p-2 shadow-2xl bg-base-100 border border-base-200 rounded-box w-52 max-h-80 overflow-y-auto mt-2">
-      <li class="menu-title text-xs font-semibold px-2 py-1 opacity-60">{% translate 'Select Theme' %}</li>
-      {% for theme_name in daisy_theme.AVAILABLE_THEMES %}
-      <li>
-        <button 
-          type="button" 
-          class="flex items-center justify-between text-xs py-2 capitalize" 
-          :class="currentTheme === '{{ theme_name }}' ? 'active font-semibold' : ''"
-          @click="setTheme('{{ theme_name }}')"
-          data-theme="{{ theme_name }}"
-        >
-          <span class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-primary border border-base-content/20"></span>
-            {{ theme_name }}
+
+    <!-- Dropdown Content Panel -->
+    <div 
+      tabindex="0" 
+      class="dropdown-content z-50 w-72 mt-2 bg-base-100/95 backdrop-blur-md rounded-2xl shadow-2xl border border-base-200 p-2 flex flex-col focus:outline-hidden"
+    >
+      <!-- Header -->
+      <div class="px-2.5 py-2 flex items-center justify-between border-b border-base-200/70 mb-1.5 shrink-0">
+        <div class="flex items-center gap-2 text-base-content">
+          <span class="w-5 h-5 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            {% daisy_icon "palette" "w-3.5 h-3.5" %}
           </span>
-          <template x-if="currentTheme === '{{ theme_name }}'">
-            {% daisy_icon "check" "w-3.5 h-3.5 text-primary" %}
-          </template>
-        </button>
-      </li>
-      {% endfor %}
-    </ul>
+          <span class="text-xs font-bold tracking-tight">{% translate 'Select Theme' %}</span>
+        </div>
+        <span class="badge badge-sm badge-ghost text-[10px] font-mono capitalize px-2 py-0.5" x-text="currentTheme"></span>
+      </div>
+
+      <!-- Theme List -->
+      <ul class="space-y-1 max-h-72 overflow-y-auto p-0.5 focus:outline-hidden">
+        {% for theme_name in daisy_theme.AVAILABLE_THEMES %}
+        <li>
+          <button 
+            type="button" 
+            class="w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs transition-all duration-150 group text-start"
+            :class="currentTheme === '{{ theme_name }}' 
+              ? 'bg-primary/10 text-primary font-semibold border border-primary/25 shadow-xs' 
+              : 'text-base-content/80 hover:bg-base-200/70 hover:text-base-content border border-transparent'"
+            @click="setTheme('{{ theme_name }}'); document.activeElement?.blur()"
+          >
+            <!-- Checkmark Indicator + Theme Label -->
+            <span class="flex items-center gap-2.5">
+              <span 
+                class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                :class="currentTheme === '{{ theme_name }}' ? 'bg-primary text-primary-content shadow-xs' : 'border border-base-content/25 group-hover:border-base-content/50'"
+              >
+                <template x-if="currentTheme === '{{ theme_name }}'">
+                  {% daisy_icon "check" "w-2.5 h-2.5" %}
+                </template>
+              </span>
+              <span class="capitalize text-xs tracking-tight">{{ theme_name }}</span>
+            </span>
+
+            <!-- Authentic Theme Color Swatch Pill -->
+            <span data-theme="{{ theme_name }}" class="bg-base-100 rounded-lg px-1.5 py-1 border border-base-content/15 shadow-xs flex items-center gap-1 shrink-0">
+              <span class="w-1.5 h-3 rounded-xs bg-primary"></span>
+              <span class="w-1.5 h-3 rounded-xs bg-secondary"></span>
+              <span class="w-1.5 h-3 rounded-xs bg-accent"></span>
+              <span class="w-1.5 h-3 rounded-xs bg-neutral"></span>
+            </span>
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 </div>
 {% endif %}

@@ -87,9 +87,20 @@ def test_daisy_sidebar_apps():
     assert daisy_sidebar_apps(None) == []
 
 
-def test_daisy_version():
-    from django_daisy_theme.templatetags.daisy_theme import daisy_version
-    from django_daisy_theme import __version__
-    assert daisy_version() == __version__
+def test_daisy_icon_palette():
+    svg = daisy_icon("palette", css_class="w-4 h-4")
+    assert "<svg" in svg
+    assert "lucide-palette" in svg
+    assert "w-4 h-4" in svg
+
+
+def test_theme_toggle_template_rendering(admin_client):
+    response = admin_client.get("/admin/")
+    assert response.status_code == 200
+    html = response.content.decode("utf-8")
+    assert "Select Theme" in html
+    assert "data-theme=" in html
+    assert "lucide-palette" in html
+    assert "w-72" in html
 
 

@@ -37,6 +37,7 @@ def pytest_configure():
                         "django.template.context_processors.request",
                         "django.contrib.auth.context_processors.auth",
                         "django.contrib.messages.context_processors.messages",
+                        "django_daisy_theme.context_processors.daisy_theme_context",
                     ],
                 },
             },
