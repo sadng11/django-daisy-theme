@@ -39,3 +39,7 @@ media/
 
 # Agents & local overrides
 .agents/*
+
+# Local Demo Project & Internal Docs
+demo/
+docs/
