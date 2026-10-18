@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static log daisy_theme %}
+{% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
 
 {% block content %}
 <div class="daisy-dashboard space-y-6">

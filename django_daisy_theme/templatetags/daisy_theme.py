@@ -79,6 +79,29 @@ def daisy_theme_attr(context=None):
 
 
 @register.simple_tag(takes_context=True)
+def get_daisy_theme(context=None):
+    """
+    Returns the active daisy_theme config dictionary.
+    First checks context['daisy_theme'], then falls back to get_theme_config().
+    Guarantees that templates have daisy_theme available without requiring
+    'daisy_theme_context' in TEMPLATES context_processors.
+    """
+    if context and hasattr(context, "get") and "daisy_theme" in context:
+        theme_ctx = context.get("daisy_theme")
+        if isinstance(theme_ctx, dict) and theme_ctx:
+            return theme_ctx
+    return get_theme_config()
+
+
+@register.simple_tag
+def daisy_language_code():
+    """
+    Returns the active language code according to Django's translation system.
+    """
+    return translation.get_language() or "en"
+
+
+@register.simple_tag(takes_context=True)
 def daisy_config(context=None, key=None, default=None):
     """
     Fetches a configuration setting from context/DAISY_THEME_CONFIG with optional fallback.

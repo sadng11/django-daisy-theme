@@ -1,4 +1,5 @@
 {% load i18n daisy_theme %}
+{% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
 <aside 
   class="bg-base-100 w-64 md:w-72 min-h-screen flex flex-col justify-between p-4 text-base-content" 
   x-data="{ sidebarFilter: '' }"

@@ -104,3 +104,20 @@ def test_theme_toggle_template_rendering(admin_client):
     assert "w-72" in html
 
 
+def test_zero_config_fallback_rendering():
+    from django.template.loader import render_to_string
+    from django.test import RequestFactory
+    from django.contrib.auth.models import AnonymousUser
+
+    rf = RequestFactory()
+    request = rf.get("/admin/login/")
+    request.user = AnonymousUser()
+
+    # Context without any 'daisy_theme' or context processor
+    rendered = render_to_string("admin/login.html", {}, request=request)
+    assert "fonts.css" in rendered
+    assert "select2-init.js" in rendered
+    assert "Select Theme" in rendered
+    assert "daisy-theme.min.css" in rendered
+
+

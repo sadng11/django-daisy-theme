@@ -1,4 +1,5 @@
 {% load i18n daisy_theme %}
+{% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
 {% if daisy_theme.SHOW_THEME_SWITCHER %}
 <div class="flex items-center gap-1.5" x-cloak>
   <!-- Quick Dark/Light Toggle Button -->

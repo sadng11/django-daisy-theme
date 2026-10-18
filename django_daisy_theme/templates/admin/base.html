@@ -1,6 +1,8 @@
-{% load i18n static daisy_theme %}<!DOCTYPE html>
+{% load i18n static daisy_theme %}
+{% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
+<!DOCTYPE html>
 <html 
-  lang="{{ LANGUAGE_CODE|default:'en' }}" 
+  lang="{% daisy_language_code %}" 
   dir="{% daisy_direction request %}" 
   data-theme="{% daisy_theme_attr %}"
   class="h-full"

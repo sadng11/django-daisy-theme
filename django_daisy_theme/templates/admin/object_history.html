@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls daisy_theme %}
+{% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
 
 {% block title %}{{ title }} | {% daisy_config "SITE_TITLE" "Django Administration" %}{% endblock %}
 
