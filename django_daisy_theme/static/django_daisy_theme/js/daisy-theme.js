@@ -98,3 +98,52 @@ if (typeof Alpine !== 'undefined') {
     document.documentElement.setAttribute('data-theme', saved);
   }
 })();
+
+// DateTime Shortcuts Enhancement (Calendar & Clock button labels and icon cleanup)
+function enhanceDateTimeShortcuts() {
+  const shortcuts = document.querySelectorAll('.datetimeshortcuts');
+  if (!shortcuts.length) return;
+
+  const isRtl =
+    document.documentElement.dir === 'rtl' ||
+    document.documentElement.lang.startsWith('fa') ||
+    document.documentElement.lang.startsWith('ar');
+
+  shortcuts.forEach((container) => {
+    // 1. Clean up pipe separator text nodes
+    Array.from(container.childNodes).forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.includes('|')) {
+        node.textContent = '';
+      }
+    });
+
+    // 2. Enhance Calendar link
+    const calLink =
+      container.querySelector('a[id^="calendarlink"]') ||
+      container.querySelector('a:has(.date-icon)');
+    if (calLink && !calLink.querySelector('.daisy-shortcut-text')) {
+      const span = document.createElement('span');
+      span.className = 'daisy-shortcut-text';
+      span.textContent = isRtl ? 'تقویم' : 'Calendar';
+      calLink.appendChild(span);
+    }
+
+    // 3. Enhance Clock link
+    const clockLink =
+      container.querySelector('a[id^="clocklink"]') ||
+      container.querySelector('a:has(.clock-icon)');
+    if (clockLink && !clockLink.querySelector('.daisy-shortcut-text')) {
+      const span = document.createElement('span');
+      span.className = 'daisy-shortcut-text';
+      span.textContent = isRtl ? 'ساعت' : 'Clock';
+      clockLink.appendChild(span);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', enhanceDateTimeShortcuts);
+window.addEventListener('load', enhanceDateTimeShortcuts);
+document.addEventListener('formset:added', () => setTimeout(enhanceDateTimeShortcuts, 50));
+setTimeout(enhanceDateTimeShortcuts, 200);
+setTimeout(enhanceDateTimeShortcuts, 800);
+

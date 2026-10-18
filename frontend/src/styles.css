@@ -239,25 +239,98 @@ ul.inline > li {
 
 /* 6. Date & Time Shortcuts */
 .datetime {
-  @apply flex flex-wrap items-center gap-2 py-1;
+  @apply flex flex-wrap items-center gap-x-4 gap-y-2 py-1.5 text-xs text-base-content/80 font-medium;
 }
 
 .datetime .vDateField,
 .datetime .vTimeField {
-  @apply max-w-[170px] !important;
+  @apply input input-bordered input-sm rounded-lg text-xs bg-base-100 focus:input-primary transition-all duration-150 !important;
+  max-width: 140px !important;
+  height: 2.125rem !important;
+  min-height: 2.125rem !important;
 }
 
 .datetimeshortcuts {
-  @apply inline-flex items-center gap-1.5 text-xs text-base-content/70;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  font-size: 0 !important; /* Hides the raw text node ' | ' cleanly */
+  vertical-align: middle !important;
+  margin-inline-start: 0.375rem !important;
 }
 
 .datetimeshortcuts a {
-  @apply px-2.5 py-1.5 rounded-md bg-base-200 hover:bg-primary hover:text-primary-content border border-base-300 font-medium text-xs no-underline transition-all duration-150;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  padding: 0.3rem 0.625rem !important;
+  border-radius: 0.5rem !important;
+  background-color: hsl(var(--b2) / 0.8) !important;
+  border: 1px solid hsl(var(--b3)) !important;
+  color: hsl(var(--bc)) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 150ms ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.datetimeshortcuts a:hover {
+  background-color: hsl(var(--p)) !important;
+  color: hsl(var(--pc)) !important;
+  border-color: hsl(var(--p)) !important;
+  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.15) !important;
 }
 
 .datetimeshortcuts .date-icon,
 .datetimeshortcuts .clock-icon {
-  @apply align-middle inline-block ms-1;
+  display: inline-block !important;
+  width: 0.875rem !important;
+  height: 0.875rem !important;
+  background-color: currentColor !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+  vertical-align: -1px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Lucide Calendar SVG icon */
+.datetimeshortcuts .date-icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v4'/%3E%3Cpath d='M16 2v4'/%3E%3Crect width='18' height='18' x='3' y='4' rx='2'/%3E%3Cpath d='M3 10h18'/%3E%3C/svg%3E") !important;
+}
+
+/* Lucide Clock SVG icon */
+.datetimeshortcuts .clock-icon {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolyline points='12 6 12 12 16 14'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolyline points='12 6 12 12 16 14'/%3E%3C/svg%3E") !important;
+}
+
+/* Clear, elegant fallback labels for calendar and clock buttons */
+.datetimeshortcuts a:has(.date-icon):not(:has(.daisy-shortcut-text))::after {
+  content: "تقویم";
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+html:not([dir="rtl"]) .datetimeshortcuts a:has(.date-icon):not(:has(.daisy-shortcut-text))::after {
+  content: "Calendar";
+}
+
+.datetimeshortcuts a:has(.clock-icon):not(:has(.daisy-shortcut-text))::after {
+  content: "ساعت";
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+html:not([dir="rtl"]) .datetimeshortcuts a:has(.clock-icon):not(:has(.daisy-shortcut-text))::after {
+  content: "Clock";
 }
 
 /* 7. File Upload Widget */
@@ -417,6 +490,84 @@ ul.inline > li {
   color: hsl(var(--p)) !important;
   font-weight: 500 !important;
   margin: 0 0.375rem !important;
+  text-decoration: none !important;
+}
+
+.calendar-shortcuts a:hover,
+.calendar-cancel a:hover {
+  text-decoration: underline !important;
+}
+
+.calendarnav-previous,
+.calendarnav-next {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  border-radius: 0.375rem !important;
+  background-color: hsl(var(--b2)) !important;
+  color: hsl(var(--bc)) !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  transition: all 150ms ease-in-out !important;
+}
+
+.calendarnav-previous:hover,
+.calendarnav-next:hover {
+  background-color: hsl(var(--p)) !important;
+  color: hsl(var(--pc)) !important;
+}
+
+.clockbox h2 {
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  padding: 0.35rem 0.5rem 0.5rem !important;
+  color: hsl(var(--bc)) !important;
+  border-bottom: 1px solid hsl(var(--b3)) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.clockbox ul.timelist {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 0.5rem 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+}
+
+.clockbox ul.timelist li a {
+  display: block !important;
+  padding: 0.375rem 0.75rem !important;
+  border-radius: 0.375rem !important;
+  font-size: 0.75rem !important;
+  color: hsl(var(--bc)) !important;
+  text-decoration: none !important;
+  transition: all 150ms ease-in-out !important;
+}
+
+.clockbox ul.timelist li a:hover {
+  background-color: hsl(var(--p)) !important;
+  color: hsl(var(--pc)) !important;
+}
+
+.clock-cancel {
+  padding-top: 0.5rem !important;
+  border-top: 1px solid hsl(var(--b3)) !important;
+  text-align: center !important;
+  font-size: 0.75rem !important;
+  margin: 0 !important;
+}
+
+.clock-cancel a {
+  color: hsl(var(--er)) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+.clock-cancel a:hover {
+  text-decoration: underline !important;
 }
 
 /* 11. Error Lists & Field-Level Errors */
