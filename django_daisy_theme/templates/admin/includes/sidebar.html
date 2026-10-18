@@ -1,24 +1,28 @@
 {% load i18n daisy_theme %}
 {% if not daisy_theme %}{% get_daisy_theme as daisy_theme %}{% endif %}
 <aside 
-  class="bg-base-100 w-64 md:w-72 min-h-screen flex flex-col justify-between p-4 text-base-content" 
+  class="bg-base-100 w-64 md:w-72 h-screen sticky top-0 flex flex-col justify-between p-3.5 text-base-content border-e border-base-200 shadow-xs z-20" 
   x-data="{ sidebarFilter: '' }"
 >
-  <!-- Top: Logo & Nav items -->
-  <div class="space-y-4">
+  <!-- Top Section (Fixed): Logo & Search -->
+  <div class="shrink-0 space-y-3 pb-3 border-b border-base-200/70">
     <!-- Sidebar Header / Brand -->
-    <div class="px-2 py-1 flex items-center justify-between">
-      <a href="{% url 'admin:index' %}" class="flex items-center gap-2.5">
+    <div class="px-1.5 flex items-center justify-between">
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-2.5 group">
         {% if daisy_theme.SITE_LOGO %}
         <img src="{{ daisy_theme.SITE_LOGO }}" alt="Logo" class="h-8 w-auto">
         {% else %}
-        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-content shadow-xs">
-          {% daisy_icon "layers" "w-5 h-5" %}
+        <div class="w-8 h-8 rounded-xl bg-primary text-primary-content flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+          {% daisy_icon "layers" "w-4 h-4" %}
         </div>
         {% endif %}
-        <div class="flex flex-col">
-          <span class="font-bold text-sm tracking-tight">{% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}</span>
-          <span class="text-[10px] text-base-content/60 uppercase tracking-wider font-semibold">{% translate 'Control Panel' %}</span>
+        <div class="flex flex-col min-w-0">
+          <span class="font-bold text-xs md:text-sm tracking-tight truncate text-base-content group-hover:text-primary transition-colors">
+            {% daisy_config "SITE_HEADER" "Daisy Theme Admin" %}
+          </span>
+          <span class="text-[10px] text-base-content/50 uppercase tracking-wider font-semibold">
+            {% translate 'Control Panel' %}
+          </span>
         </div>
       </a>
       <label for="admin-drawer" class="btn btn-ghost btn-square btn-xs lg:hidden" aria-label="Close sidebar">
@@ -27,81 +31,167 @@
     </div>
 
     <!-- Quick filter input for models -->
-    <div class="relative px-1">
+    <div class="relative px-0.5">
       <input 
         type="text" 
         placeholder="{% translate 'Filter navigation...' %}" 
         x-model="sidebarFilter"
-        class="input input-bordered input-xs w-full pe-8 text-xs bg-base-200/50 focus:bg-base-100"
+        class="input input-bordered input-xs w-full h-8 min-h-8 rounded-lg pe-8 text-xs bg-base-200/50 focus:bg-base-100 border-base-content/10 focus:border-primary transition-all"
       />
-      <span class="absolute end-3 top-1.5 opacity-40">
+      <span class="absolute end-2.5 top-2 opacity-40 pointer-events-none" x-show="!sidebarFilter">
         {% daisy_icon "search" "w-3.5 h-3.5" %}
       </span>
-    </div>
-
-    <!-- Navigation Tree -->
-    <nav class="space-y-1">
-      <!-- Dashboard Home -->
-      <a 
-        href="{% url 'admin:index' %}" 
-        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium hover:bg-base-200 transition-colors {% if is_index %}bg-primary text-primary-content hover:bg-primary{% endif %}"
+      <button 
+        type="button" 
+        x-show="sidebarFilter" 
+        @click="sidebarFilter = ''" 
+        class="absolute end-2.5 top-2 text-base-content/40 hover:text-base-content transition-colors"
       >
-        {% daisy_icon "dashboard" "w-4 h-4 opacity-80" %}
-        <span>{% translate 'Dashboard' %}</span>
-      </a>
-
-      <!-- App & Model Sections -->
-      <div class="pt-2 space-y-3">
-        {% daisy_sidebar_apps as sidebar_apps %}
-        {% for app in sidebar_apps %}
-        <div 
-          class="space-y-1"
-          x-show="!sidebarFilter || '{{ app.name|lower }}'.includes(sidebarFilter.toLowerCase()) || {% for model in app.models %}'{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase()) ||{% endfor %} false"
-        >
-          <div class="px-3 text-[11px] font-bold text-base-content/50 uppercase tracking-wider flex items-center justify-between">
-            <span>{{ app.name }}</span>
-          </div>
-
-          <ul class="space-y-0.5">
-            {% for model in app.models %}
-            <li 
-              class="group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-colors {% if model.admin_url and model.admin_url in request.path %}bg-primary/10 text-primary font-semibold{% else %}hover:bg-base-200 text-base-content/85{% endif %}"
-              x-show="!sidebarFilter || '{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase())"
-            >
-              {% if model.admin_url %}
-              <a href="{{ model.admin_url }}" class="flex-1 truncate hover:text-primary transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full {% if model.admin_url and model.admin_url in request.path %}bg-primary{% else %}bg-base-content/30 group-hover:bg-primary{% endif %} transition-colors"></span>
-                <span class="truncate">{{ model.name }}</span>
-              </a>
-              {% else %}
-              <span class="flex-1 truncate text-base-content/60">{{ model.name }}</span>
-              {% endif %}
-
-              {% if model.add_url %}
-              <a 
-                href="{{ model.add_url }}" 
-                class="opacity-0 group-hover:opacity-100 btn btn-ghost btn-xs btn-square text-base-content/60 hover:text-primary transition-opacity"
-                title="{% translate 'Add' %} {{ model.name }}"
-              >
-                {% daisy_icon "plus" "w-3.5 h-3.5" %}
-              </a>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% empty %}
-        <p class="text-xs text-base-content/60 px-3 py-2 italic">{% translate 'No accessible applications.' %}</p>
-        {% endfor %}
-      </div>
-    </nav>
+        {% daisy_icon "x" "w-3.5 h-3.5" %}
+      </button>
+    </div>
   </div>
 
-  <!-- Bottom Info -->
-  <div class="pt-4 border-t border-base-200">
-    <div class="flex items-center gap-2.5 px-2 py-1">
-      <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
-      <span class="text-[11px] text-base-content/70">{% translate 'System Online' %}</span>
+  <!-- Center Section (Scrollable): Navigation Tree -->
+  <nav class="flex-1 overflow-y-auto py-3 space-y-2.5 pe-1 focus:outline-hidden" style="scrollbar-width: thin;">
+    <!-- Dashboard Home Link -->
+    <a 
+      href="{% url 'admin:index' %}" 
+      class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all group {% if is_index %}bg-primary text-primary-content shadow-xs{% else %}text-base-content/80 hover:text-base-content hover:bg-base-200/70{% endif %}"
+    >
+      <span class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors {% if is_index %}bg-primary-content/20 text-primary-content{% else %}bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-content{% endif %}">
+        {% daisy_icon "dashboard" "w-3.5 h-3.5" %}
+      </span>
+      <span class="truncate font-bold">{% translate 'Dashboard' %}</span>
+    </a>
+
+    <!-- App & Model Sections (Collapsible Accordions) -->
+    <div class="space-y-1.5 pt-1">
+      {% daisy_sidebar_apps as sidebar_apps %}
+      {% for app in sidebar_apps %}
+      <div 
+        class="space-y-1"
+        x-data="{ 
+          open: true,
+          init() {
+            const saved = localStorage.getItem('sidebar_app_{{ app.app_label|default:forloop.counter }}');
+            if (saved !== null) {
+              this.open = saved === 'true';
+            }
+            {% if app.models %}
+              {% for model in app.models %}
+                {% if model.admin_url and model.admin_url in request.path %}
+                  this.open = true;
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          },
+          toggle() {
+            this.open = !this.open;
+            localStorage.setItem('sidebar_app_{{ app.app_label|default:forloop.counter }}', this.open);
+          }
+        }"
+        x-show="!sidebarFilter || '{{ app.name|lower }}'.includes(sidebarFilter.toLowerCase()) || {% for model in app.models %}'{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase()) ||{% endfor %} false"
+      >
+        <!-- App Section Header (Accordion Toggle Button) -->
+        <button 
+          type="button"
+          @click="toggle()"
+          class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all duration-150 select-none group text-start border border-transparent hover:border-base-200/80 hover:bg-base-200/60"
+          :class="open ? 'bg-base-200/40 text-base-content' : 'text-base-content/70 hover:text-base-content'"
+        >
+          <!-- Left: App Icon & Name -->
+          <span class="flex items-center gap-2 truncate min-w-0">
+            <span 
+              class="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-colors"
+              :class="open ? 'bg-primary/10 text-primary font-bold' : 'bg-base-200 text-base-content/60 group-hover:bg-primary/10 group-hover:text-primary'"
+            >
+              {% daisy_icon "folder" "w-3 h-3" %}
+            </span>
+            <span class="truncate text-[11px] font-bold uppercase tracking-wider">{{ app.name }}</span>
+          </span>
+
+          <!-- Right: Count Badge & Chevron -->
+          <span class="flex items-center gap-1.5 shrink-0 ms-1">
+            {% if app.models %}
+            <span class="badge badge-xs badge-ghost text-[10px] font-mono opacity-70 group-hover:opacity-100 px-1.5 py-0.5">
+              {{ app.models|length }}
+            </span>
+            {% endif %}
+            <span class="inline-flex transition-transform duration-200 text-base-content/40 group-hover:text-base-content" :class="open ? 'rotate-180' : ''">
+              {% daisy_icon "chevron-down" "w-3 h-3" %}
+            </span>
+          </span>
+        </button>
+
+        <!-- Models List (Collapsible with Tree Hierarchy Line) -->
+        <ul 
+          x-show="open || sidebarFilter" 
+          x-transition:enter="transition ease-out duration-150"
+          x-transition:enter-start="opacity-0 -translate-y-1"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="space-y-0.5 ps-3 pe-1 ms-3 border-s-2 border-base-200/80 my-1"
+        >
+          {% for model in app.models %}
+          <li 
+            class="group flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-all {% if model.admin_url and model.admin_url in request.path %}bg-primary/10 text-primary font-bold shadow-2xs{% else %}text-base-content/80 hover:text-base-content hover:bg-base-200/70{% endif %}"
+            x-show="!sidebarFilter || '{{ model.name|lower }}'.includes(sidebarFilter.toLowerCase())"
+          >
+            {% if model.admin_url %}
+            <a href="{{ model.admin_url }}" class="flex-1 truncate hover:text-primary transition-colors flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full shrink-0 transition-all {% if model.admin_url and model.admin_url in request.path %}bg-primary ring-2 ring-primary/30{% else %}bg-base-content/25 group-hover:bg-primary/70{% endif %}"></span>
+              <span class="truncate">{{ model.name }}</span>
+            </a>
+            {% else %}
+            <span class="flex-1 truncate text-base-content/60">{{ model.name }}</span>
+            {% endif %}
+
+            {% if model.add_url %}
+            <a 
+              href="{{ model.add_url }}" 
+              class="opacity-0 group-hover:opacity-100 btn btn-ghost btn-xs btn-square text-base-content/50 hover:text-primary hover:bg-base-200 transition-all"
+              title="{% translate 'Add' %} {{ model.name }}"
+            >
+              {% daisy_icon "plus" "w-3 h-3" %}
+            </a>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% empty %}
+      <p class="text-xs text-base-content/60 px-3 py-2 italic">{% translate 'No accessible applications.' %}</p>
+      {% endfor %}
     </div>
+
+    <!-- Custom Links (if configured) -->
+    {% if daisy_theme.CUSTOM_LINKS %}
+    <div class="pt-3 border-t border-base-200/60 space-y-1">
+      <div class="px-2 text-[10px] uppercase font-bold text-base-content/40 tracking-wider">
+        {% translate 'Quick Links' %}
+      </div>
+      {% for link in daisy_theme.CUSTOM_LINKS %}
+      <a 
+        href="{{ link.url }}" 
+        target="{{ link.target|default:'_self' }}" 
+        class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-base-content/75 hover:text-primary hover:bg-base-200/60 transition-colors"
+      >
+        {% if link.icon %}{% daisy_icon link.icon "w-3.5 h-3.5 opacity-70" %}{% endif %}
+        <span class="truncate">{{ link.title }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </nav>
+
+  <!-- Bottom Section (Fixed): Status & Version -->
+  <div class="shrink-0 pt-3 border-t border-base-200/70 flex items-center justify-between px-1">
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+      <span class="text-[11px] font-medium text-base-content/70">{% translate 'System Online' %}</span>
+    </div>
+    {% if daisy_theme.SHOW_VERSION %}
+    <span class="badge badge-xs badge-ghost text-[10px] font-mono opacity-60">v{% daisy_version %}</span>
+    {% endif %}
   </div>
 </aside>
