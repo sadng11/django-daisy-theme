@@ -75,6 +75,8 @@ DAISY_THEME_CONFIG = {
     "ENABLE_SELECT2": True,                                  # Enhance select boxes with Select2
 
     # Dashboard & Navigation
+    "SHOW_GREETING_BANNER": True,                            # Show/hide top greeting banner ("Welcome back...")
+    "SHOW_STATS_CARDS": True,                                # Show/hide stats cards row (apps, models, user)
     "SHOW_RECENT_ACTIONS": True,                             # Show recent activity feed on dashboard
     "CUSTOM_LINKS": [                                        # Custom links in navbar & sidebar
         {
@@ -118,6 +120,8 @@ DAISY_THEME_CONFIG = {
 | `COLLAPSIBLE_SIDEBAR` | `bool` | `True` | Enable collapsible sidebar on desktop and drawer on mobile. |
 | `SHOW_BREADCRUMBS` | `bool` | `True` | Show navigation breadcrumb trail on admin pages. |
 | `ENABLE_SELECT2` | `bool` | `True` | Automatically enhance select inputs with Select2 search. |
+| `SHOW_GREETING_BANNER` | `bool` | `True` | Show/hide the welcome banner on the main dashboard. |
+| `SHOW_STATS_CARDS` | `bool` | `True` | Show/hide the summary stats row (apps, models, user) on the dashboard. |
 | `SHOW_RECENT_ACTIONS` | `bool` | `True` | Show the recent activity / history cards on the main dashboard. |
 | `CUSTOM_LINKS` | `list[dict]` | `[]` | List of custom external or internal navigation links. |
 | `FOOTER_TEXT` | `str` | `"Powered by django-daisy-theme"` | Custom text displayed at the bottom of admin pages. |

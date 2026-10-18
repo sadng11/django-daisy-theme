@@ -24,6 +24,8 @@ DEFAULT_CONFIG = {
     "FONT_FAMILY": None,
     "COLLAPSIBLE_SIDEBAR": True,
     "SHOW_RECENT_ACTIONS": True,
+    "SHOW_GREETING_BANNER": True,
+    "SHOW_STATS_CARDS": True,
     "CUSTOM_LINKS": [],
     "FOOTER_TEXT": "Powered by django-daisy-theme",
     "SHOW_VERSION": True,

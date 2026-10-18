@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: django-daisy-theme 0.1.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-18 22:00+0330\n"
+"PO-Revision-Date: 2026-10-18 22:00+0330\n"
+"Last-Translator: Sadng <sadng12@gmail.com>\n"
+"Language-Team: Persian <fa@li.org>\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Welcome back,"
+msgstr "خوش آمدید،"
+
+msgid "Welcome to the administration dashboard. Select an application below to view or manage records."
+msgstr "به پنل مدیریت خوش آمدید. برای مشاهده یا ویرایش رکوردها، یکی از بخش‌های زیر را انتخاب کنید."
+
+msgid "Applications"
+msgstr "برنامه‌ها"
+
+msgid "Applications & Models"
+msgstr "برنامه‌ها و مدل‌ها"
+
+msgid "apps"
+msgstr "برنامه"
+
+msgid "Installed apps with admin access"
+msgstr "برنامه‌های فعال با دسترسی مدیریت"
+
+msgid "Registered Models"
+msgstr "مدل‌های ثبت‌شده"
+
+msgid "Data models manageable here"
+msgstr "مدل‌های قابل مدیریت در این پنل"
+
+msgid "Current Session"
+msgstr "نشست جاری"
+
+msgid "Superuser"
+msgstr "مدیر ارشد"
+
+msgid "Staff Member"
+msgstr "کارمند"
+
+msgid "Control Panel"
+msgstr "کنترل پنل"
+
+msgid "Dashboard"
+msgstr "داشبورد"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "Select Theme"
+msgstr "انتخاب پوسته"
+
+msgid "Switch to light mode"
+msgstr "تغییر به حالت روشن"
+
+msgid "Switch to dark mode"
+msgstr "تغییر به حالت تاریک"
+
+msgid "Filter navigation..."
+msgstr "فیلتر منو..."
+
+msgid "System Online"
+msgstr "سیستم آنلاین است"
+
+msgid "Quick Links"
+msgstr "دسترسی سریع"
+
+msgid "No accessible applications."
+msgstr "هیچ برنامه‌ای در دسترس نیست."
+
+msgid "Recent Actions"
+msgstr "فعالیت‌های اخیر"
+
+msgid "No history records found"
+msgstr "هیچ سابقه‌ای یافت نشد"
+
+msgid "View Site"
+msgstr "مشاهده سایت"
+
+msgid "View site"
+msgstr "مشاهده سایت"
+
+msgid "View on site"
+msgstr "مشاهده در سایت"
+
+msgid "Action"
+msgstr "عملیات"
+
+msgid "Action:"
+msgstr "عملیات:"
+
+msgid "Execute"
+msgstr "اجرا"
+
+msgid "Run the selected action"
+msgstr "اجرای عملیات انتخاب‌شده"
+
+msgid "Clear selection"
+msgstr "پاک کردن انتخاب"
+
+msgid "Click here to select the objects across all pages"
+msgstr "برای انتخاب تمام موارد در همه صفحه‌ها اینجا کلیک کنید"
+
+msgid "Filters"
+msgstr "فیلترها"
+
+msgid "Filter records"
+msgstr "فیلتر رکوردها"
+
+msgid "Filter Records"
+msgstr "فیلتر رکوردها"
+
+msgid "Apply / Close"
+msgstr "اعمال / بستن"
+
+msgid "Clear all filters"
+msgstr "پاک کردن تمام فیلترها"
+
+msgid "Search records..."
+msgstr "جستجوی رکوردها..."
+
+msgid "Clear search"
+msgstr "پاک کردن جستجو"
+
+msgid "Show all"
+msgstr "نمایش همه"
+
+msgid "No records found."
+msgstr "هیچ رکوردی یافت نشد."
+
+msgid "Page Not Found"
+msgstr "صفحه پیدا نشد"
+
+msgid "Page not found"
+msgstr "صفحه پیدا نشد"
+
+msgid "We couldn't find the page you requested. Please check the URL or return to the dashboard."
+msgstr "صفحه مورد نظر شما پیدا نشد. لطفاً آدرس را بررسی کنید یا به داشبورد بازگردید."
+
+msgid "Return to dashboard"
+msgstr "بازگشت به داشبورد"
+
+msgid "Back to Dashboard"
+msgstr "بازگشت به داشبورد"
+
+msgid "Server Error"
+msgstr "خطای سرور"
+
+msgid "Server error"
+msgstr "خطای سرور"
+
+msgid "There was an internal server error while processing your request. Please try again later."
+msgstr "هنگام پردازش درخواست شما خطای داخلی رخ داد. لطفاً بعداً دوباره امتحان کنید."
+
+msgid "Please enter your credentials to access the administration panel."
+msgstr "لطفاً اطلاعات کاربری خود را برای ورود به پنل مدیریت وارد کنید."
+
+msgid "Enter your username"
+msgstr "نام کاربری خود را وارد کنید"
+
+msgid "Username"
+msgstr "نام کاربری"
+
+msgid "Password"
+msgstr "گذرواژه"
+
+msgid "Log in"
+msgstr "ورود"
+
+msgid "Log out"
+msgstr "خروج"
+
+msgid "Password change"
+msgstr "تغییر گذرواژه"
+
+msgid "Password change successful"
+msgstr "تغییر گذرواژه با موفقیت انجام شد"
+
+msgid "Change my password"
+msgstr "تغییر گذرواژه من"
+
+msgid "Change password"
+msgstr "تغییر گذرواژه"
+
+msgid "Set password"
+msgstr "تنظیم گذرواژه"
+
+msgid "Your password was changed."
+msgstr "گذرواژه شما تغییر یافت."
+
+msgid "Please enter your old password, for security’s sake, and then enter your new password twice so we can verify you typed it in correctly."
+msgstr "لطفاً برای حفظ امنیت ابتدا گذرواژه قدیمی خود را وارد کنید، سپس گذرواژه جدید را دو بار تکرار نمایید."
+
+msgid "Please correct the error below."
+msgstr "لطفاً خطای زیر را تصحیح کنید."
+
+msgid "Please correct the errors below."
+msgstr "لطفاً خطاهای زیر را تصحیح کنید."
+
+msgid "Are you sure?"
+msgstr "آیا مطمئن هستید؟"
+
+msgid "Yes, I'm sure"
+msgstr "بله، مطمئنم"
+
+msgid "Cancel"
+msgstr "انصراف"
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Save and add another"
+msgstr "ذخیره و افزودن یکی دیگر"
+
+msgid "Save and continue editing"
+msgstr "ذخیره و ادامه ویرایش"
+
+msgid "Save as new"
+msgstr "ذخیره به عنوان رکورد جدید"
+
+msgid "Save and view"
+msgstr "ذخیره و مشاهده"
+
+msgid "Add"
+msgstr "افزودن"
+
+msgid "Added"
+msgstr "افزوده شد"
+
+msgid "Change"
+msgstr "تغییر"
+
+msgid "Changed"
+msgstr "تغییر یافت"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Delete?"
+msgstr "حذف؟"
+
+msgid "Deleted"
+msgstr "حذف شد"
+
+msgid "History"
+msgstr "تاریخچه"
+
+msgid "Date/time"
+msgstr "تاریخ/زمان"
+
+msgid "User"
+msgstr "کاربر"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Required"
+msgstr "الزامی"
+
+msgid "You don’t have permission to view or edit anything."
+msgstr "شما اجازه مشاهده یا ویرایش هیچ موردی را ندارید."
+
+msgid "This object doesn’t have a change history. It probably wasn’t added via this admin site."
+msgstr "این مورد دارای سابقه تغییرات نیست. احتمالاً از طریق پنل مدیریت ایجاد نشده است."
+
+msgid "All of the following objects and their related items will be deleted from the database:"
+msgstr "تمام موارد زیر و اقلام وابسته به آن‌ها از پایگاه داده حذف خواهند شد:"
+
+msgid "All of the following related objects will also be deleted from the database:"
+msgstr "تمام موارد وابسته زیر نیز از پایگاه داده حذف خواهند شد:"
+
+msgid "Remove from sorting"
+msgstr "حذف از مرتب‌سازی"
+
+msgid "None available"
+msgstr "موردی موجود نیست"
+
+msgid "Disable password-based authentication"
+msgstr "غیرفعال‌سازی احراز هویت با گذرواژه"
+
+msgid "Enable password-based authentication"
+msgstr "فعال‌سازی احراز هویت با گذرواژه"

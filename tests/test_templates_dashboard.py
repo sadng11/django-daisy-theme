@@ -66,6 +66,33 @@ def test_index_dashboard_renders():
     assert "daisy-stat-card" in rendered or "stats shadow" in rendered
 
 
+def test_index_dashboard_banner_and_stats_toggles():
+    rf = RequestFactory()
+    request = rf.get("/admin/")
+    user = User(username="admin", is_staff=True, is_superuser=True)
+    request.user = user
+
+    rendered_hidden = render_to_string(
+        "admin/index.html",
+        {
+            "app_list": [],
+            "user": user,
+            "title": "Site administration",
+            "is_index": True,
+            "daisy_theme": {
+                "SITE_TITLE": "Admin Title",
+                "DEFAULT_THEME": "light",
+                "SHOW_GREETING_BANNER": False,
+                "SHOW_STATS_CARDS": False,
+            },
+        },
+        request=request,
+    )
+    assert "Welcome back," not in rendered_hidden
+    assert "daisy-stat-card" not in rendered_hidden
+
+
+
 def test_error_404_renders():
     rf = RequestFactory()
     request = rf.get("/admin/nonexistent/")

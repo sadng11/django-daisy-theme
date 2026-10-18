@@ -5,6 +5,7 @@
 {% block content %}
 <div class="daisy-dashboard space-y-6">
   <!-- Greeting Header Banner -->
+  {% if daisy_theme.SHOW_GREETING_BANNER != False %}
   <div class="card bg-gradient-to-r from-primary/10 via-base-100 to-secondary/10 border border-base-200 shadow-sm">
     <div class="card-body p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="space-y-1">
@@ -27,9 +28,12 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
   <!-- Stats Cards Row -->
+  {% if daisy_theme.SHOW_STATS_CARDS != False %}
   {% include "admin/includes/stats_cards.html" %}
+  {% endif %}
 
   <!-- Main Grid: Apps List + Recent Actions -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

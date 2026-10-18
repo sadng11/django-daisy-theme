@@ -9,6 +9,8 @@ def test_default_theme_config():
     assert config["DIRECTION"] == "auto"
     assert config["LOAD_DEFAULT_FONTS"] is True
     assert config["ENABLE_SELECT2"] is True
+    assert config["SHOW_GREETING_BANNER"] is True
+    assert config["SHOW_STATS_CARDS"] is True
     assert "light" in config["AVAILABLE_THEMES"]
     assert "dark" in config["AVAILABLE_THEMES"]
 
